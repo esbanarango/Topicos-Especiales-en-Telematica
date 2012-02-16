@@ -136,7 +136,7 @@ class Servidor
 end
 
 if ARGV.size < 1
-  puts "Uso: ruby #{__FILE__} [puerto]"
+  puts "Usage: ruby #{__FILE__} [puerto]"
 else
   servidor = Servidor.new(ARGV[0].to_i)
   servidor.run
