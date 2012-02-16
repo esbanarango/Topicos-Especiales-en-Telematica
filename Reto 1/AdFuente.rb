@@ -1,9 +1,20 @@
-#ADFUENTE
+=begin
+	Topicos Especiales en Telematica, Febrero 2012
+		Implementacion de un servicio de Anuncios Distribuido
+
+			Esteban Arango Medina
+			Daniel Julian Duque Tirado
+			Sebastian Duque Jaramillo
+=end
 require "socket"
 require 'nokogiri'
 require 'readline'
 
 class AdFuente
+
+	$formatoNEWMSG = "Format: NEWMSG (channel1,...) message\n Or type -HELP"
+	$ayuda = ""
+
 	attr_accessor :host, :puerto
 
 	def initialize(host,puerto)
@@ -12,16 +23,14 @@ class AdFuente
 	end
 
 	def run
-		puts("Conectando...")
+		puts("Conected...")
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
-	    	@socket.puts "AdFuente"
-	    	# Connected, let's start the threads
-		    thread1 = Thread.new { leer }
-		    thread2 = Thread.new { escribir}
-		      
-		    thread1.join
-		    thread2.join
+	    	@socket.puts "AdFuente"					#Me identifico ante el servidor como un AdFuente
+		    hiloLeer = Thread.new { leer }
+		    hiloEscribir = Thread.new { escribir}
+		    hiloLeer.join
+		    hiloEscribir.join
 	    ensure
 	      @socket.close
 	    end
@@ -33,11 +42,25 @@ class AdFuente
 	def leer
 		begin
 	      while not @socket.eof?
-		        line = @socket.gets.chomp
-		        puts line
-		    end
-	    rescue Exception => e     				#Catch de RUBY
-	      puts "Ha ocurrido un error: #{e}"
+		        mensaje = @socket.gets.chomp
+		        if mensaje=~ /(ERR) (1|2|3)/
+		        	case $2
+			    		when "1"
+			    			puts "Command not found"
+					    	puts $formatoNEWMSG
+				    	when "2"
+					    	puts "Error: You have to set at least one channel"
+					    	puts $formatoNEWMSG
+					    when "3"
+					    	puts "Error: You have to enter a message"
+					    	puts $formatoNEWMSG
+				    end
+				else
+					puts mensaje	
+		        end		        
+		    end#while
+	    rescue Exception => e     				
+	      puts "An error has occurred: #{e}"
 	    end
 
 	end
@@ -46,10 +69,14 @@ class AdFuente
 		begin
 	      while not STDIN.eof?
 	        line = STDIN.gets.chomp
-	      	@socket.puts line
+	        if line == "-HELP"
+	        	puts "Esta es la ayuda"
+	        else
+	        	@socket.puts line
+	        end	      	
 	      end
 	    rescue Exception => e
-	      puts "Ha ocurrido un error: #{e}"      
+	      puts "An error has occurred: #{e}"      
 	    end
 	end
 
@@ -57,9 +84,9 @@ class AdFuente
 end
 
 if ARGV.size < 2
-  puts "Uso: ruby #{__FILE__} [host] [port]"
+  puts "Usage: ruby #{__FILE__} [host] [port]"
 else
-  puts "Bienvenido!"
+  puts "Welcome!"
   
   fuente = AdFuente.new(ARGV[0], ARGV[1].to_i)
   fuente.run

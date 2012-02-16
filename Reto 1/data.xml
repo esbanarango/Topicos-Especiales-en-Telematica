@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 	<canales>
-		<canal>Deportes</canal>
-		<canal>Culinaria</canal>
-		<canal>Salud</canal>
-		<canal>Tecnologia</canal>
-		<canal>Ocio</canal>
+		<canal>DEPORTES</canal>
+		<canal>CULINARIA</canal>
+		<canal>SALUD</canal>
+		<canal>TECNOLOGIA</canal>
+		<canal>OCIO</canal>
 	</canales>
 
 	<mensajesCanales>
-		<mensajes canal="Deportes">
-			<mensaje>Mensaje de deportes!! 1</mensaje>
-			<mensaje>Mensaje de deportes!! 2</mensaje>
+		<mensajes canal="DEPORTES">
+			<mensaje>Naciol le dio clases de buen futbol a la U de chile</mensaje>
+			<mensaje>Se acabo el futbol ricardo jorge</mensaje>
 			<mensaje>Nacional campeón por 7ma vez consecutiva de la liga Postobon</mensaje>
 			<mensaje>Este es el último mensaje de deportes!</mensaje>
 		</mensajes>
-		<mensajes canal="Culinaria">
+		<mensajes canal="CULINARIA">
 		</mensajes>
-		<mensajes canal="Salud">
+		<mensajes canal="SALUD">
 			<mensaje>La salud está en un muy mal momento!</mensaje>
 			<mensaje>La gente está tomando mucho aguardiente, afirman las licoreras</mensaje>
 		</mensajes>
-		<mensajes canal="Tecnologia">
+		<mensajes canal="TECNOLOGIA">
 			<mensaje>El día de ayer salió el último Iphone 7.3</mensaje>
 		</mensajes>
-		<mensajes canal="Ocio">
+		<mensajes canal="OCIO">
 			<mensaje>Recomendamos este super spa para que se vaya con la novia, SPA 'El descanso del amor'</mensaje>
 		</mensajes>
 	</mensajesCanales>
 
 	<usuarios>
 		<usuario nombre="esban">
-			<canal>Deportes</canal>
+			<canal>DEPORTES</canal>
 		</usuario>
 		<usuario nombre="chuk">
-			<canal>Tecnologia</canal>
-			<canal>Ocio</canal>
+			<canal>TECNOLOGIA</canal>
+			<canal>OCIO</canal>
 		</usuario>
 		<usuario nombre="sebas">
-			<canal>Salud</canal>
-			<canal>Culinaria</canal>
+			<canal>SALUD</canal>
+			<canal>CULINARIA</canal>
 		</usuario>
 	</usuarios>
 

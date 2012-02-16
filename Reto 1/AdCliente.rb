@@ -1,4 +1,11 @@
-#ADFUENTE
+=begin
+	Topicos Especiales en Telematica, Febrero 2012
+		Implementacion de un servicio de Anuncios Distribuido
+
+			Esteban Arango Medina
+			Daniel Julian Duque Tirado
+			Sebastian Duque Jaramillo
+=end
 require "socket"
 require 'nokogiri'
 require 'readline'
@@ -15,16 +22,15 @@ class AdCliente
 		puts("Conectando...")
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
-	    	@socket.puts "AdCliente"
-	    	puts "Ingrese su nombre de usuario"
+	    	@socket.puts "AdCliente"					#Me identifico ante el servidor como un AdFuente
+	    	puts "Enter an username"
 	    	line = STDIN.gets.chomp
 	      	@socket.puts line
-	    	# Connected, let's start the threads
-		    thread1 = Thread.new { leer }
-		    thread2 = Thread.new { escribir}
-		      
-		    thread1.join
-		    thread2.join
+
+	    	hiloLeer = Thread.new { leer }
+		    hiloEscribir = Thread.new { escribir}
+		    hiloLeer.join
+		    hiloEscribir.join
 	    ensure
 	      @socket.close
 	    end
@@ -38,7 +44,7 @@ class AdCliente
 	      while not @socket.eof?
 		        line = @socket.gets.chomp
 		        puts line
-		    end
+		   end
 	    rescue Exception => e     				#Catch de RUBY
 	      puts "Ha ocurrido un error: #{e}"
 	    end
@@ -60,9 +66,9 @@ class AdCliente
 end
 
 if ARGV.size < 2
-  puts "Uso: ruby #{__FILE__} [host] [port]"
+  puts "Usage: ruby #{__FILE__} [host] [port]"
 else
-  puts "Bienvenido!"
+  puts "Welcome!"
   
   client = AdCliente.new(ARGV[0], ARGV[1].to_i)
   client.run
