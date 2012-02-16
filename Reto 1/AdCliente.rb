@@ -1,4 +1,5 @@
 =begin
+	Archivo: AdCliente.rb
 	Topicos Especiales en Telematica, Febrero 2012
 		Implementacion de un servicio de Anuncios Distribuido
 

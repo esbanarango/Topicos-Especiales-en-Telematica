@@ -1,4 +1,5 @@
 =begin
+	Archivo: AdServidor.rb
 	Topicos Especiales en Telematica, Febrero 2012
 		Implementacion de un servicio de Anuncios Distribuido
 
@@ -13,7 +14,7 @@ require 'readline'
 #Expresion regular para los mensajes proveninetes del AdFuente
 RegAdFuente = %r{(?<cdg>LIST CH|NEWMSG) ?(?<cnls>\(.{1,}\))? ?(?<msg>.*)?}
 
-class Servidor
+class AdServidor
 	attr_accessor :puerto,:canales,:fuentes,:usuarios, :doc
 
 	def initialize(puerto=1212)
@@ -22,8 +23,8 @@ class Servidor
 		@canales = {}							#Creación del Hash de canales
 		@usuarios = {}
 		@doc = Nokogiri::XML File.open 'data.xml'	
-		cargarInfoXML('canales')				#Cargamos los canales del XML
-		cargarInfoXML('mensajes')				#Cargamos los mensajes del XML
+		cargarInfoXML('canales')				  #Cargamos los canales del XML
+		cargarInfoXML('mensajes')				  #Cargamos los mensajes del XML
 	end
 
 	def run
@@ -36,9 +37,9 @@ class Servidor
 		    begin
 		    	identificacion(socket, client_addrinfo)	    
 		    	if @fuentes.include?(socket)
-		    		mainAdFuente(socket)		#Main principal de las acciones del AdFuente
+		    		mainAdFuente(socket)		   #Main principal de las acciones del AdFuente
 		    	else
-		    		mainAdCliente(socket)		#Main principal de las acciones del AdCliente
+		    		mainAdCliente(socket)		   #Main principal de las acciones del AdCliente
 				end
 			ensure
 		      socket.close 
@@ -74,7 +75,7 @@ class Servidor
 			    				end
 			    			end
 			    		end							
-			    end
+			    end#case
 			else
 				socket.puts "ERR 1"
 			end
@@ -135,10 +136,11 @@ class Servidor
 
 end
 
+#Corriendo...
 if ARGV.size < 1
   puts "Usage: ruby #{__FILE__} [puerto]"
 else
-  servidor = Servidor.new(ARGV[0].to_i)
+  servidor = AdServidor.new(ARGV[0].to_i)
   servidor.run
 end
 
