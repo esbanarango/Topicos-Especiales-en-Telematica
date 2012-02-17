@@ -24,9 +24,10 @@ class AdCliente
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
 	    	@socket.puts "AdCliente"					#Me identifico ante el servidor como un AdFuente
-	    	puts "Enter an username"
-	    	line = STDIN.gets.chomp
-	      	@socket.puts line
+	    	STDOUT.sync = true
+	    	print "Enter an username: "
+	    	nombreUsuario = STDIN.gets.chomp
+	      	@socket.puts nombreUsuario
 
 	    	hiloLeer = Thread.new { leer }
 		    hiloEscribir = Thread.new { escribir}

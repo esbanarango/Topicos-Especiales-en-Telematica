@@ -29,18 +29,19 @@
 		</mensajes>
 	</mensajesCanales>
 
-	<usuarios>
-		<usuario nombre="esban">
+	<clientes>
+		<cliente nombre="esban">
 			<canal>DEPORTES</canal>
-		</usuario>
-		<usuario nombre="chuk">
+		</cliente>
+		<cliente nombre="chuk">
+			<canal>DEPORTES</canal>
 			<canal>TECNOLOGIA</canal>
 			<canal>OCIO</canal>
-		</usuario>
-		<usuario nombre="sebas">
+		</cliente>
+		<cliente nombre="sebas">
 			<canal>SALUD</canal>
 			<canal>CULINARIA</canal>
-		</usuario>
-	</usuarios>
+		</cliente>
+	</clientes>
 
 </data>

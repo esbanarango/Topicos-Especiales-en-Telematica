@@ -13,7 +13,7 @@ require 'readline'
 
 class AdFuente
 
-	$formatoNEWMSG = "Format: NEWMSG (channel1,...) message\n Or type -HELP"
+	$formatoNEWMSG = "\nFormat: NEWMSG (channel1,...) message\nOr type -HELP"
 	$ayuda = ""
 
 	attr_accessor :host, :puerto
@@ -61,7 +61,7 @@ class AdFuente
 		        end		        
 		    end#while
 	    rescue Exception => e     				
-	      puts "An error has occurred: #{e}"
+	      puts "An exception has occurred: #{e}"
 	    end
 
 	end
@@ -71,13 +71,17 @@ class AdFuente
 	      while not STDIN.eof?
 	        line = STDIN.gets.chomp
 	        if line == "-HELP"
-	        	puts "Esta es la ayuda"
+	        	puts "* "*11
+	        	puts "* Available commands: *"
+
+	        	puts "* "*11
+
 	        else
 	        	@socket.puts line
 	        end	      	
 	      end
 	    rescue Exception => e
-	      puts "An error has occurred: #{e}"      
+	      puts "An exception has occurred: #{e}"      
 	    end
 	end
 
