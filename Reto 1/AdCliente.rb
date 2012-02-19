@@ -9,8 +9,8 @@
 =end
 
 def Kernel.is_windows?
-  processor, plataform, *rest = RUBY_PLATFORM.split("-")
-  plataform == 'mingw32'
+  processor, platform, *rest = RUBY_PLATFORM.split("-")
+  platform == 'mingw32'
 end
 
 require "socket"
