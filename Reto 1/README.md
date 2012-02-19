@@ -10,7 +10,7 @@
 
 Requisitos & Instalación
 ----
-Se debe tener instalado en Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_server_loop' entre otras.)
+Se debe tener instalado Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_server_loop' entre otras.)
 
 ### Mac OS y Unix
  Basta con instalar '[Nokogiri](http://nokogiri.org/)' para la manipulación de archivos XML
@@ -22,3 +22,4 @@ Se debe tener instalado en Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_se
  
     $ gem install win32console
     $ gem install nokogiri
+ Para windows si no se tiene Ruby instalado, recomendos el siguiente link [Ruby Installer for Windows](http://rubyinstaller.org/)
