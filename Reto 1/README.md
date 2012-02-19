@@ -6,4 +6,4 @@
   
    * [Esteban Arango Medina](https://github.com/esbanarango)
    * [Daniel Duque Tirado](https://github.com/DanielJDuque)
-   * Sebastian Duque Jaramillo
+   * [Sebastian Duque Jaramillo](https://github.com/sduquej)
