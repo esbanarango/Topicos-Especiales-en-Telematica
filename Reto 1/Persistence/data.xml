@@ -6,6 +6,7 @@
     <canal>SALUD</canal>
     <canal>TECNOLOGIA</canal>
     <canal>OCIO</canal>
+    <canal>FARANDULA</canal>
   </canales>
   <mensajesCanales>
     <mensajes canal="DEPORTES">
@@ -27,18 +28,22 @@
     <mensajes canal="OCIO">
       <mensaje>Jota Mario es despedido de Muy buenos dias</mensaje>
     </mensajes>
+    <mensajes canal="FARANDULA">
+      <mensaje>Jaider Villa regresa a la actuación</mensaje>
+    </mensajes>
   </mensajesCanales>
   <clientes>
     <cliente nombre="chuk">
       <canal>DEPORTES</canal>
       <canal>TECNOLOGIA</canal>
     </cliente>
+    <cliente nombre="esban">
+      <canal>DEPORTES</canal>
+      <canal>FARANDULA</canal>
+    </cliente>
     <cliente nombre="sebas">
       <canal>CULINARIA</canal>
       <canal>SALUD</canal>
-    </cliente>
-    <cliente nombre="esban">
-      <canal>DEPORTES</canal>
     </cliente>
   </clientes>
 </data>

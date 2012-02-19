@@ -47,7 +47,7 @@ module XmlHandler
 		      }
 		    }
 		  end
-		aFile = File.new("data.xml", "w")
+		aFile = File.new("Persistence/data.xml", "w")
 		aFile.write(builder.to_xml)
 		aFile.close
 	end

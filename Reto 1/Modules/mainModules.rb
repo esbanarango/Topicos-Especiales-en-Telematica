@@ -125,6 +125,8 @@ def mainAdCliente(socket)
 			    				if @canales.has_key?(canal) && !@canales[canal][1].include?(nombreUsuario)
 			    					socket.puts gris("Successfully ")+verde("subscribed ")+gris("to channel")+verde(" -> ")+rojo(canal)
 			    					@canales[canal][1].push(nombreUsuario)
+			    				elsif !@canales.has_key?(canal)
+			    					socket.puts amarillo("Channel ")+rojo("#{canal.upcase}")+amarillo(" does not exist")	
 			    				elsif @canales[canal][1].include?(nombreUsuario)
 			    					socket.puts gris("You are ")+verde("already subscribed ")+gris("to channel")+verde(" -> ")+rojo(canal)	
 			    				end	
@@ -192,7 +194,7 @@ def mainADMIN()
 		    					puts "Channel #{canalMSG} already exists."
 		    			else 
 		    				@canales[canalMSG.upcase] = [[],[]]
-		    				puts gris("Successfully created channel")+verde(" -> ")+"#{canalMSG}"
+		    				puts gris("Successfully created channel")+verde(" -> ")+"#{canalMSG.upcase}"
 		    			end
 			    	end
 	      		when "REMOVE CH", "remove ch"
@@ -213,7 +215,7 @@ def mainADMIN()
 			    	end
 			    when "-HELP", "-help"
 			    		helpAdmin
-			    when "QUIT"
+			    when "QUIT", "quit"
 			    	exit
 			end#case
 		else

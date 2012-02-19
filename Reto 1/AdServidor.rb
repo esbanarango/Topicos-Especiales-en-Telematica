@@ -10,9 +10,9 @@
 require "socket"
 require 'nokogiri'
 require 'readline'
-load "mainModules.rb"
-load "designModules.rb"
-load "XmlHandler.rb"
+load "Modules/mainModules.rb"
+load "Modules/designModules.rb"
+load "Persistence/XmlHandler.rb"
 
 class AdServidor
 
@@ -28,7 +28,7 @@ class AdServidor
 		@fuentes = []
 		@canales = {}							  #Creación del Hash de canales
 		@clientes = {}
-		@doc = Nokogiri::XML File.open 'data.xml'	
+		@doc = Nokogiri::XML File.open 'Persistence/data.xml'	
 		cargarInfoXML('canales')				  #Cargamos los canales del XML
 		cargarInfoXML('mensajes')				  #Cargamos los mensajes del XML
 		cargarInfoXML('clientes')				  #Cargamos los clientes del XML
