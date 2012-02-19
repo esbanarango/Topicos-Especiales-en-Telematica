@@ -1,5 +1,10 @@
 #Servicio de anuncios distribuido
 ========
+Implementación de un sistema de anuncios (advertisement) que permite a un conjunto de clientes
+obtener mensajes de anuncios de productos o servicios. El sistema tiene dos módulos principales:
+Proveedor de anuncios (AdFuente), es decir, es desde donde se generan los mensajes y un Cliente de
+anuncios (AdCliente), el cual recibe los mensajes enviados a un Canal por un AdFuente.
+
 ###Reto 1
 
   **Por:**
@@ -22,4 +27,4 @@ Se debe tener instalado Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_serve
  
     $ gem install win32console
     $ gem install nokogiri
- Para windows si no se tiene Ruby instalado, recomendos el siguiente link [Ruby Installer for Windows](http://rubyinstaller.org/)
+ Si no se tiene Ruby instalado, recomendos el siguiente link [Ruby Installer for Windows](http://rubyinstaller.org/)
