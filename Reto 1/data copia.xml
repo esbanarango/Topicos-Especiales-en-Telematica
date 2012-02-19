@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<canales>
+		<canal>DEPORTES</canal>
+		<canal>CULINARIA</canal>
+		<canal>SALUD</canal>
+		<canal>TECNOLOGIA</canal>
+		<canal>OCIO</canal>
+	</canales>
+
+	<mensajesCanales>
+		<mensajes canal="DEPORTES">
+			<mensaje>Naciol le dio clases de buen futbol a la U de chile</mensaje>
+			<mensaje>Se acabo el futbol ricardo jorge</mensaje>
+			<mensaje>Nacional campeón por 7ma vez consecutiva de la liga Postobon</mensaje>
+			<mensaje>Este es el último mensaje de deportes!</mensaje>
+		</mensajes>
+		<mensajes canal="CULINARIA">
+		</mensajes>
+		<mensajes canal="SALUD">
+			<mensaje>La salud está en un muy mal momento!</mensaje>
+			<mensaje>La gente está tomando mucho aguardiente, afirman las licoreras</mensaje>
+		</mensajes>
+		<mensajes canal="TECNOLOGIA">
+			<mensaje>El día de ayer salió el último Iphone 7.3</mensaje>
+		</mensajes>
+		<mensajes canal="OCIO">
+			<mensaje>Recomendamos este super spa para que se vaya con la novia, SPA 'El descanso del amor'</mensaje>
+		</mensajes>
+	</mensajesCanales>
+
+	<clientes>
+		<cliente nombre="esban">
+			<canal>DEPORTES</canal>
+		</cliente>
+		<cliente nombre="chuk">
+			<canal>DEPORTES</canal>
+			<canal>TECNOLOGIA</canal>
+			<canal>OCIO</canal>
+		</cliente>
+		<cliente nombre="sebas">
+			<canal>SALUD</canal>
+			<canal>CULINARIA</canal>
+		</cliente>
+	</clientes>
+
+</data>

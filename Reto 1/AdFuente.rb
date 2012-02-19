@@ -4,17 +4,18 @@
 		Implementacion de un servicio de Anuncios Distribuido
 
 			Esteban Arango Medina
-			Daniel Julian Duque Tirado
 			Sebastian Duque Jaramillo
+			Daniel Julian Duque Tirado
 =end
 require "socket"
 require 'nokogiri'
 require 'readline'
+load "designModules.rb"
 
 class AdFuente
 
-	$formatoNEWMSG = "\nFormat: NEWMSG (channel1,...) message\nOr type -HELP"
-	$ayuda = ""
+	include Color
+	include Help
 
 	attr_accessor :host, :puerto
 
@@ -24,12 +25,12 @@ class AdFuente
 	end
 
 	def run
-		puts("Conected...")
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
 	    	@socket.puts "AdFuente"					#Me identifico ante el servidor como un AdFuente
 		    hiloLeer = Thread.new { leer }
 		    hiloEscribir = Thread.new { escribir}
+		    puts rojo("Conected...")
 		    hiloLeer.join
 		    hiloEscribir.join
 	    ensure
@@ -47,14 +48,11 @@ class AdFuente
 		        if mensaje=~ /(ERR) (1|2|3)/
 		        	case $2
 			    		when "1"
-			    			puts "Command not found"
-					    	puts $formatoNEWMSG
+			    			puts amarillo("Command not found") 
 				    	when "2"
-					    	puts "Error: You have to set at least one channel"
-					    	puts $formatoNEWMSG
+					    	puts amarillo("Error: You have to set at least one channel")
 					    when "3"
-					    	puts "Error: You have to enter a message"
-					    	puts $formatoNEWMSG
+					    	puts amarillo("Error: You have to enter a message")
 				    end
 				else
 					puts mensaje	
@@ -70,16 +68,17 @@ class AdFuente
 		begin
 	      while not STDIN.eof?
 	        line = STDIN.gets.chomp
-	        if line == "-HELP"
-	        	puts "* "*11
-	        	puts "* Available commands: *"
-
-	        	puts "* "*11
-
+	        if line == "-HELP" || line == "-help"
+	        	helpFuente
+	        elsif line == "QUIT" || line == "quit"
+	        	exit
 	        else
 	        	@socket.puts line
 	        end	      	
 	      end
+	    rescue SystemExit, Interrupt
+		    puts("Good Bye! :).")
+			Thread.list.each { |t| t.kill }
 	    rescue Exception => e
 	      puts "An exception has occurred: #{e}"      
 	    end
@@ -91,8 +90,6 @@ end
 if ARGV.size < 2
   puts "Usage: ruby #{__FILE__} [host] [port]"
 else
-  puts "Welcome!"
-  
   fuente = AdFuente.new(ARGV[0], ARGV[1].to_i)
   fuente.run
 end
