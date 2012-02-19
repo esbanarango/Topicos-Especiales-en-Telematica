@@ -7,6 +7,7 @@
 			Sebastian Duque Jaramillo
 			Daniel Julian Duque Tirado
 =end
+def Kernel.is_windows?
 require "socket"
 require 'nokogiri'
 require 'readline'

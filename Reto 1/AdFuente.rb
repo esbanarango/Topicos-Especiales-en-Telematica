@@ -7,9 +7,18 @@
 			Sebastian Duque Jaramillo
 			Daniel Julian Duque Tirado
 =end
+
+def Kernel.is_windows?
+  processor, plataform, *rest = RUBY_PLATFORM.split("-")
+  plataform == 'mingw32'
+end
+
 require "socket"
 require 'nokogiri'
 require 'readline'
+if Kernel.is_windows? == true
+  require 'win32console'
+end
 load "Modules/designModules.rb"
 
 class AdFuente
