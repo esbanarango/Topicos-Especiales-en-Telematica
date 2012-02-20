@@ -7,7 +7,7 @@ anuncios (AdCliente), el cual recibe los mensajes enviados a un Canal por un AdF
 
 ###Reto 1
 
-  **Por:**
+ **Por:**
   
    * [Esteban Arango Medina](https://github.com/esbanarango)
    * [Daniel Duque Tirado](https://github.com/DanielJDuque)
@@ -29,7 +29,10 @@ Se debe tener instalado Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_serve
     $ gem install nokogiri
  Si no se tiene Ruby instalado, recomendos el siguiente link [Ruby Installer for Windows](http://rubyinstaller.org/)
  
-##Ejecución básica
+##Ejecución
 
 En la carpeta _Reto1_ hay 3 archivos ejecuatables, AdServidor.rb, AdCliente.rb y AdFuente.rb. El primer archivo que se debe ejecutar
-es AdServidor.rb, especificando el puerto que se desea utilizar `$ ruby AdServidor.rb 5555`
+es AdServidor.rb, especificando el puerto que se desea utilizar `$ ruby AdServidor.rb 5555`.
+
+Teniendo en ejecución el servidor podemos correr ya sea AdFuente.rb o AdCliente.rb. Para esto se debe especificar la ip del servidor 
+al igual que el puerto. `$ ruby AdCliente.rb localhost 5555` ó `$ ruby AdFuente.rb localhost 5555`
