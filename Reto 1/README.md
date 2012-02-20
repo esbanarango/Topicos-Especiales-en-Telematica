@@ -23,7 +23,7 @@ Se debe tener instalado Ruby 1.9. (Ruby 1.8 no soporta funciones como 'tcp_serve
     $ gem install nokogiri
 
 #### Windows
- En Windows se debe instalar la gema 'win32Console' para poder visualizar los colores en la terminal, al igual que _Nokogiri_ para la manipulación de los archivos XML
+ En Windows se debe instalar la gema _win32Console_ para poder visualizar los colores en la terminal, al igual que _Nokogiri_ para la manipulación de los archivos XML
  
     $ gem install win32console
     $ gem install nokogiri
