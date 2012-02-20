@@ -42,8 +42,13 @@ al igual que el puerto. `$ ruby AdCliente.rb localhost 5555` ó `$ ruby AdFuente
 >"Los anuncios son recibidos por los clientes en modo PUSH y PULL. Por anuncios PUSH se entiende la característica de recibir en un cliente 
 >mensajes sin haber sido solicitada explícitamente por el cliente. Por anuncios PULL se entiende cuando el cliente explícitamente recupera mensajes de un canal específico."
 
-Push: ![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%201/Docs/Imgs/Envio%20mensaje%20push.png?raw=true)
-Pull: ![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%201/Docs/Imgs/Envio%20mensajes%20pull.png?raw=true)
+####Push:
+
+![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%201/Docs/Imgs/Envio%20mensaje%20push.png?raw=true)
+
+####Pull: 
+
+![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%201/Docs/Imgs/Envio%20mensajes%20pull.png?raw=true)
 
 Las 3 entidades cuentan con un comando `-HELP` con el cual se pueden ver todos los comandos disponibles y que hace cada uno
 de ellos.
