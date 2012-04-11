@@ -1,0 +1,1 @@
+RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT) ?(?<user>\(.{1,}\))?}
