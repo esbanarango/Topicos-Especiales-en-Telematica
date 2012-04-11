@@ -63,12 +63,25 @@ class ServerChat
                                 end
                                 socket.puts "\n"
                             when "CHAT" 
+                                #Verificar que no sea el mismo
                                 userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
-                                puts("--- se quieren conectar a"+ username)                                      
-                            else
-                                socket.puts "que es eos ome"
+                                puts "tarando de conectar con #{userName}"
+                                existe=false
+                                userConectTo= @users.invert[socket]
+                                uriUserConectTo = userConectTo.uri
+                                @users.keys.each do |user|
+                                    if(user.userName == userName) 
+                                       socket.puts ("NEW CONECTION #{user.uri}")     #Me conecto con el 
+                                       @users[user].puts("NEW CONECTION #{uriUserConectTo}") #El se conecta conmigo
+                                       existe=true
+                                    end
+                                end
+                                if(!existe)
+                                    socket.puts "ERR 1"
+                                end                                     
                         end#case
                     else
+                        puts "parce pillat eloq ue pusieron: #{line}"
                         socket.puts "ERR 1"
                     end
                 end#while

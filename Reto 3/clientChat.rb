@@ -57,6 +57,15 @@ class ClientChat < User
 	    end
 	end
 
+	def mandar(messages)
+      	chat.recibir(@userName,messages)
+  	end
+
+	def recibir(from,messages)
+	    puts("Parce llego un mensaje de: #{from}")
+	    puts("\t #{messages}")
+	end
+
 	private
 
 	def leer
@@ -64,7 +73,8 @@ class ClientChat < User
 	      while not @socket.eof?
 		        line = @socket.gets.chomp
 		        if line=~ /(NEW CONECTION) (.+)/i
-		        	chat = DRbObject.new nil, $2
+		        	puts "HUY huy se me estan conectado #{$2}"
+		        	@chat = DRbObject.new nil, $2
 				else
 					puts line	
 		        end	
@@ -83,7 +93,7 @@ class ClientChat < User
 	      		helpCliente
 	      	elsif line == "QUIT" || line == "quit"
 	        	exit
-	        elsif chat != nil
+	        elsif @chat != nil
 	        	mandar(line)
 	        else
 	        	@socket.puts line
@@ -95,15 +105,6 @@ class ClientChat < User
 	    rescue Exception => e
 	      puts "Ha ocurrido un error: #{e}"      
 	    end
-	end
-
-	def mandar(messages)
-      	chat.recibir(@userName,messages)
-  	end
-
-	def recibir(from,messages)
-	    puts("Parce llego un mensaje de: #{from}")
-	    puts("\t #{messages}")
 	end
 end
 
