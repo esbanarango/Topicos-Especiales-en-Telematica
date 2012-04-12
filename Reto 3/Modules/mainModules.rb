@@ -49,7 +49,7 @@ module Main
                                 	socket.puts ("Waiting for #{userName} responses...")
                                 	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
                                 	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N) ")
-                                	resp = @users[user].readline.chomp
+                                	resp = @users[user].readline.chomp.upcase!
                                 	if resp=~ /(Y|N)/i
 										resp.upcase!
 										if(resp == 'N')

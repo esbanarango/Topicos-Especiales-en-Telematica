@@ -36,6 +36,17 @@ class ClientChat < User
 		@puerto = puerto
 	end
 
+	def local_ip
+	  orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+
+	  UDPSocket.open do |s|
+	    s.connect '64.233.187.99', 1
+	    s.addr.last
+	  end
+	ensure
+	  Socket.do_not_reverse_lookup = orig
+	end
+
 	def run
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
@@ -44,9 +55,13 @@ class ClientChat < User
 	    	@userName = STDIN.gets.chomp
 	    	@socket.puts @userName
 
+	    	#myUri = "druby://#{local_ip}:#{puerto}"
+	    	#puts Socket.getaddrinfo(myHost,nil).inspect
 	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
-	    	DRb.start_service nil, self    
-	    	@socket.puts DRb.uri	
+	    	DRb.start_service nil, self  
+	    	#puts DRb.uri
+	    	myUri = DRb.uri.gsub(/localhost/,local_ip)
+	    	@socket.puts myUri	
 
 	      	puts rojo("Conected...")
 
