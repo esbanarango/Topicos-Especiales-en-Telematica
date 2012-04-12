@@ -1,7 +1,7 @@
 =begin
     Archivo: designModules.rb
-    Topicos Especiales en Telematica, Febrero 2012
-        Implementacion de un servicio de Anuncios Distribuido
+    Topicos Especiales en Telematica, Abril 2012
+        Implementación de un servicio de presencia
 
             Esteban Arango Medina
             Sebastian Duque Jaramillo
@@ -32,26 +32,13 @@ module Help
     	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program")
 	end
 
-	def helpFuente
+	def helpUser
 		puts "\t\t\t"+amarillo("* "*12)
     	puts "\t\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
     	puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t- "+amarillo("LIST CH")+gris("\t\t\t => Lists all channels that are currently active in the server")
-    	puts "\t- "+amarillo("NEWMSG (Channel1,...) Message")+gris("\t => Sends message to channel(s) Channel1,...")
-    	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the Available commands")
-    	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program")
-	end
-	
-	def helpCliente
-		puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
-    	puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t- "+amarillo("LIST CH")+gris("\t\t\t => Lists all channels that are currently active in the server")
-        puts "\t- "+amarillo("LIST MY CH")+gris("\t\t\t => Lists all channels that you are subscribed")
-        puts "\t- "+amarillo("GETMSGS (Channel1,...)")+gris("\t => Get all the messages from channel(s) Channel1,...")
-        puts "\t- "+amarillo("SUBSCRIBE (Channel1,...)")+gris("\t => Subscribes you into channel(s) Channel1,...")
-    	puts "\t- "+amarillo("UNSUBSCRIBE (Channel1,...)")+gris("\t => Unsubscribes you into channel(s) Channel1,...")
-    	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the Available commands")
-    	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program")
+    	puts "\t- "+amarillo("LIST USERS")+gris("\t\t\t => Lists the status of all the users.")
+        puts "\t- "+amarillo("CHAT (user-name)")+gris("\t\t => Starts a conversation with 'user-name'.")
+    	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the available commands.")
+    	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program.")
 	end
 end

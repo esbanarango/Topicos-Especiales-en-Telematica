@@ -1,6 +1,6 @@
 =begin
     Archivo: serverChat.rb
-    Topicos Especiales en Telematica, Febrero 2012
+    Topicos Especiales en Telematica, Abril 2012
         Implementación de un servicio de presencia
 
             Esteban Arango Medina
@@ -27,11 +27,14 @@ load "user.rb"
 class ServerChat
 
     include Color
-    attr_accessor :puerto, :onlineUsers, :offlineUsers
+    include Help
+    include Main
+
+    attr_accessor :puerto, :users
 
     def initialize(puerto=1212)
         @puerto = puerto
-        @users = {}                             #Creación del Hash de canales
+        @users = {}                            
     end
 
     def run
@@ -43,48 +46,7 @@ class ServerChat
           Thread.new {
             begin
                 register(socket, client_addrinfo);
-                while not socket.eof?
-                    line = socket.readline.chomp
-                    r = RegUserActions.match(line)
-                    unless r.nil?
-                        case r[:cdg]
-                            when "LIST USERS"
-                                socket.puts gris("Online users:")
-                                @users.keys.each do |user|  
-                                    socket.puts verde("\t #{user.userName}") if user.state == "Online"
-                                end
-                                socket.puts gris("Busy users:")
-                                @users.keys.each do |user|
-                                    socket.puts amarillo("\t #{user.userName}") if user.state == "Busy"
-                                end
-                                socket.puts gris("Offline users:")
-                                @users.keys.each do |user|
-                                    socket.puts azul("\t #{user.userName}") if user.state == "Offline"
-                                end
-                                socket.puts "\n"
-                            when "CHAT" 
-                                #Verificar que no sea el mismo
-                                userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
-                                puts "tarando de conectar con #{userName}"
-                                existe=false
-                                userConectTo= @users.invert[socket]
-                                uriUserConectTo = userConectTo.uri
-                                @users.keys.each do |user|
-                                    if(user.userName == userName) 
-                                       socket.puts ("NEW CONECTION #{user.uri}")     #Me conecto con el 
-                                       @users[user].puts("NEW CONECTION #{uriUserConectTo}") #El se conecta conmigo
-                                       existe=true
-                                    end
-                                end
-                                if(!existe)
-                                    socket.puts "ERR 1"
-                                end                                     
-                        end#case
-                    else
-                        puts "parce pillat eloq ue pusieron: #{line}"
-                        socket.puts "ERR 1"
-                    end
-                end#while
+                mainADMIN(socket)
             ensure
               socket.close 
             end

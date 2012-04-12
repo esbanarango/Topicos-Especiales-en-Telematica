@@ -1,6 +1,6 @@
 =begin
     Archivo: clientChat.rb
-    Topicos Especiales en Telematica, Febrero 2012
+    Topicos Especiales en Telematica, Abril 2012
         Implementación de un servicio de presencia
 
             Esteban Arango Medina
@@ -27,6 +27,7 @@ class ClientChat < User
 
 	include DRbUndumped
 	include Color
+	include Help
 
 	attr_accessor :host, :puerto, :chat
 
@@ -40,9 +41,10 @@ class ClientChat < User
 	    begin
 	    	STDOUT.sync = true
 	    	print gris("Enter an username: ")
-	    	nombreUsuario = STDIN.gets.chomp
-	    	@socket.puts nombreUsuario
+	    	@userName = STDIN.gets.chomp
+	    	@socket.puts @userName
 
+	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
 	    	DRb.start_service nil, self    
 	    	@socket.puts DRb.uri	
 
@@ -56,13 +58,13 @@ class ClientChat < User
 	      @socket.close
 	    end
 	end
-
-	def mandar(messages)
-      	chat.recibir(@userName,messages)
+	
+	# Métodos expuestos al Peer para la interacción del chat
+	def mandar(from,messages)
+      	@chat.recibir(from,messages)
   	end
-
 	def recibir(from,messages)
-	    puts("Parce llego un mensaje de: #{from}")
+	    puts("Messages from: #{from}")
 	    puts("\t #{messages}")
 	end
 
@@ -73,7 +75,6 @@ class ClientChat < User
 	      while not @socket.eof?
 		        line = @socket.gets.chomp
 		        if line=~ /(NEW CONECTION) (.+)/i
-		        	puts "HUY huy se me estan conectado #{$2}"
 		        	@chat = DRbObject.new nil, $2
 				else
 					puts line	
@@ -90,11 +91,11 @@ class ClientChat < User
 	      while not STDIN.eof?
 	        line = STDIN.gets.chomp
 	      	if line == "-HELP" || line == "-help"
-	      		helpCliente
+	      		helpUser
 	      	elsif line == "QUIT" || line == "quit"
 	        	exit
 	        elsif @chat != nil
-	        	mandar(line)
+	        	mandar(@userName,line)
 	        else
 	        	@socket.puts line
 	        end	
