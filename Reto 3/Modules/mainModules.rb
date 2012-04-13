@@ -48,22 +48,17 @@ module Main
                                 if(user.state == 'Online')
                                 	socket.puts ("Waiting for #{userName} responses...")
                                 	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
-                                	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N) ")
-                                	resp = @users[user].readline.chomp.upcase!
-                                	if resp=~ /(Y|N)/i
-										resp.upcase!
-										if(resp == 'N')
-											socket.puts ("User #{userName} does not want to chat with you.")							
-											break
-										else
-											@users[user].puts("NEW CONECTION #{uriUserConectTo}")    #El se conecta conmigo
-											@users[user].puts("Your now connected with #{userConectTo.userName}. Chat freely.\n")
-		                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 
-		                                    socket.puts ("Your now connected with #{userName}. Chat freely.\n")
-		                                    user.state = userConectTo.state ='Busy'
-										end
+                                	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N)")
+                                	resp = @users[user].readline.chomp
+									if(resp == 'Y' || resp == 'y')
+										@users[user].puts("NEW CONECTION #{uriUserConectTo}")    #El se conecta conmigo
+										@users[user].puts("Your now connected with #{userConectTo.userName}. Chat freely.\n")
+	                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 
+	                                    socket.puts ("Your now connected with #{userName}. Chat freely.\n")
+	                                    user.state = userConectTo.state ='Busy'
 									else
-										@users[user].puts "ERR 11"
+										socket.puts ("User #{userName} does not want to chat with you.")							
+										break
 									end
                                 elsif (user.state == 'Busy')
                                    socket.puts "User #{userName} is busy at this moment, you may interrupt."

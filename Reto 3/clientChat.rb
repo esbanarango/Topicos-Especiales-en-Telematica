@@ -55,12 +55,10 @@ class ClientChat < User
 	    	@userName = STDIN.gets.chomp
 	    	@socket.puts @userName
 
-	    	#myUri = "druby://#{local_ip}:#{puerto}"
-	    	#puts Socket.getaddrinfo(myHost,nil).inspect
 	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
 	    	DRb.start_service nil, self  
-	    	#puts DRb.uri
-	    	myUri = DRb.uri.gsub(/localhost/,local_ip)
+	    	myUri = DRb.uri.gsub(/\/\/(.*):/,"//"+local_ip+":")
+	    	puts myUri
 	    	@socket.puts myUri	
 
 	      	puts rojo("Conected...")
