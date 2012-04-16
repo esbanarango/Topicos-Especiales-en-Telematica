@@ -58,6 +58,10 @@ class ClientChat < User
 	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
 	    	DRb.start_service nil, self  
 	    	myUri = DRb.uri.gsub(/\/\/(.*):/,"//"+local_ip+":")
+<<<<<<< HEAD
+=======
+	    	#puts myUri
+>>>>>>> Pptr
 	    	@socket.puts myUri	
 
 	    	system "clear"
