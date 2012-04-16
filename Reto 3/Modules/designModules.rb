@@ -33,12 +33,12 @@ module Help
 	end
 
 	def helpUser
-		puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
-    	puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t- "+amarillo("LIST USERS")+gris("\t\t\t => Lists the status of all the users.")
-        puts "\t- "+amarillo("CHAT (user-name)")+gris("\t\t => Starts a conversation with 'user-name'.")
-    	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the available commands.")
-    	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program.")
+		puts "\t\t"+amarillo("* "*12)
+    	puts "\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
+    	puts "\t\t"+amarillo("* "*12)
+    	puts "    - "+amarillo("LIST USERS")+gris("\t\t => Lists the status of all the users.")
+        puts "    - "+amarillo("CHAT (user_name)")+gris("\t\t => Starts a conversation with 'user-name'.")
+    	puts "    - "+amarillo("-HELP")+gris("\t\t\t => Shows all the available commands.")
+    	puts "    - "+amarillo("QUIT")+gris("\t\t\t => Quits the program.")
 	end
 end

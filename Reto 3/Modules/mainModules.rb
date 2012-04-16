@@ -49,12 +49,13 @@ module Main
                                 	socket.puts ("Waiting for #{userName} responses...")
                                 	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
                                 	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N)")
-                                	resp = @users[user].readline.chomp
+                                	resp = @users[user].readline.chomp.upcase!
+                                    #puts ("Pillatea: "+resp)
 									if(resp == 'Y' || resp == 'y')
 										@users[user].puts("NEW CONECTION #{uriUserConectTo}")    #El se conecta conmigo
-										@users[user].puts("Your now connected with #{userConectTo.userName}. Chat freely.\n")
+										@users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")
 	                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 
-	                                    socket.puts ("Your now connected with #{userName}. Chat freely.\n")
+	                                    socket.puts ("Your now connected with "+verde("#{userName}")+".")
 	                                    user.state = userConectTo.state ='Busy'
 									else
 										socket.puts ("User #{userName} does not want to chat with you.")							

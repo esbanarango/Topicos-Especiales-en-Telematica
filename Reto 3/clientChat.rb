@@ -58,10 +58,12 @@ class ClientChat < User
 	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
 	    	DRb.start_service nil, self  
 	    	myUri = DRb.uri.gsub(/\/\/(.*):/,"//"+local_ip+":")
-	    	puts myUri
 	    	@socket.puts myUri	
 
+	    	system "clear"
+
 	      	puts rojo("Conected...")
+	      	puts amarillo("Type '-help' to see the avalible commands")
 
 	    	hiloLeer = Thread.new { leer }
 		    hiloEscribir = Thread.new { escribir}
@@ -77,8 +79,9 @@ class ClientChat < User
       	@chat.recibir(from,messages)
   	end
 	def recibir(from,messages)
-	    puts("Messages from: #{from}")
-	    puts("\t #{messages}")
+		print rojo("#{from}: ")
+	    print("#{messages}\n")
+	    print rojo("#{@userName}: ")
 	end
 
 	private
@@ -89,6 +92,7 @@ class ClientChat < User
 		        line = @socket.gets.chomp
 		        if line=~ /(NEW CONECTION) (.+)/i
 		        	@chat = DRbObject.new nil, $2
+		        	system "clear"
 				else
 					puts line	
 		        end	

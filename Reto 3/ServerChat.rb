@@ -67,7 +67,7 @@ end
 
 #Corriendo...
 if ARGV.size < 1
-  puts "Usage: ruby #{__FILE__} [puerto]"
+  puts "Usage: ruby #{__FILE__} [port]"
 else
   server = ServerChat.new(ARGV[0].to_i)
   server.run
