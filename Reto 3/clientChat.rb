@@ -29,11 +29,12 @@ class ClientChat < User
 	include Color
 	include Help
 
-	attr_accessor :host, :puerto, :chat
+	attr_accessor :host, :puerto, :chat, :time
 
 	def initialize(host,puerto)
 		@host = host
 		@puerto = puerto
+		@time = Time.new
 	end
 
 	def local_ip
@@ -83,9 +84,9 @@ class ClientChat < User
       	@chat.recibir(from,messages)
   	end
 	def recibir(from,messages)
-		print rojo("#{from}: ")
+		print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{from}: ")
 	    print("#{messages}\n")
-	    print rojo("#{@userName}: ")
+	    print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{@userName}: ")
 	end
 
 	private
