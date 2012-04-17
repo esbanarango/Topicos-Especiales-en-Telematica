@@ -9,7 +9,7 @@
 =end
 
 #Expresiones regulares para los mensajes proveninetes del los usuarios
-RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION) ?(?<user>\(.{1,}\))?}
+RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION|QUIT APP) ?(?<user>\(.{1,}\))?}
 
 
 module Main
@@ -22,6 +22,20 @@ module Main
                 code = r[:cdg]
                 code.upcase!
                 case code
+                    when "QUIT CONVERSATION"
+                        userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
+                        @users.keys.each do |user|
+                            if(user.userName == userName)
+                                user.state = 'Online'
+                            end
+                    end
+                    when "QUIT APP"
+                        userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
+                        @users.keys.each do |user|
+                            if(user.userName == userName)
+                                user.state = 'Offline'
+                            end
+                    end
                     when "LIST USERS"
                         socket.puts gris("Online users:")
                         @users.keys.each do |user|  
@@ -48,10 +62,10 @@ module Main
                                 if(user.state == 'Online')
                                 	socket.puts ("Waiting for #{userName} responses...")
                                 	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
-                                	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N)")
+                                	@users[user].print ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N)")
                                 	resp = @users[user].readline.chomp
                                     puts ("Pillatea: "+resp)
-									if(resp == 'Y' || resp == 'y')
+									if(resp.upcase == 'Y')
 										@users[user].puts("NEW CONECTION #{uriUserConectTo}")    #El se conecta conmigo
 										@users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")
 	                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 

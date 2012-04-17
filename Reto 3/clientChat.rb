@@ -13,6 +13,7 @@ def Kernel.is_windows?
   platform == 'mingw32'
 end
 
+
 require "socket"
 require 'nokogiri'
 require 'readline'
@@ -29,7 +30,9 @@ class ClientChat < User
 	include Color
 	include Help
 
-	attr_accessor :host, :puerto, :chat, :time
+	attr_accessor :host, :puerto, :chat, :time, :socket
+
+	
 
 	def initialize(host,puerto)
 		@host = host
@@ -51,19 +54,27 @@ class ClientChat < User
 	def run
 	    @socket = TCPSocket.new(host, puerto)
 	    begin
-	    	STDOUT.sync = true
+	    	
+	    	STDOUT.sync = true	    	
 	    	print gris("Enter an username: ")
 	    	@userName = STDIN.gets.chomp
 	    	@socket.puts @userName
-
 	    	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
 	    	DRb.start_service nil, self  
 	    	myUri = DRb.uri.gsub(/\/\/(.*):/,"//"+local_ip+":")
-<<<<<<< HEAD
-=======
 	    	#puts myUri
->>>>>>> Pptr
 	    	@socket.puts myUri	
+	    	reply = @socket.gets.chomp
+	    	while (reply!='Welcome')
+	    		puts(reply)
+	    		print gris("Enter an username: ")
+		    	@userName = STDIN.gets.chomp
+		    	@socket.puts @userName
+		    	reply = @socket.gets.chomp
+	    	end
+
+
+
 
 	    	system "clear"
 
@@ -84,24 +95,44 @@ class ClientChat < User
       	@chat.recibir(from,messages)
   	end
 	def recibir(from,messages)
-		print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{from}: ")
-	    print("#{messages}\n")
-	    print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{@userName}: ")
+		if messages == "__DISCONNECT"
+			@chat = nil
+			@socket.puts("QUIT CONVERSATION (#{@userName})")
+			@state = "Online"
+		else
+			print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{from}: ")
+	   	 	print("#{messages}\n")
+	   	 	print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{@userName}: ")
+		end
+	end
+
+	def end
+	    if @chat != nil
+	    	mandar(@username,"__DISCONNECT")
+	    end
+	    @socket.puts("QUIT APP (#{@userName})")
+	    Thread.list.each { |t| t.kill }
 	end
 
 	private
 
 	def leer
+		
 		begin
 	      while not @socket.eof?
 		        line = @socket.gets.chomp
 		        if line=~ /(NEW CONECTION) (.+)/i
 		        	@chat = DRbObject.new nil, $2
 		        	system "clear"
+
+
 				else
 					puts line	
 		        end	
 		   end
+		rescue SystemExit, Interrupt
+		    puts("Good Bye! :).")
+			Thread.list.each { |t| t.kill }
 	    rescue Exception => e     				#Catch de RUBY
 	      puts "Ha ocurrido un error: #{e}"
 	    end
@@ -131,9 +162,15 @@ class ClientChat < User
 	end
 end
 
+$client = nil
+
+trap("SIGINT") do
+		$client.end
+ end
+
 if ARGV.size < 2
   puts "Usage: ruby #{__FILE__} [host] [port]"
 else
-  client = ClientChat.new(ARGV[0], ARGV[1].to_i)
-  client.run
+  $client = ClientChat.new(ARGV[0], ARGV[1].to_i)
+  $client.run
 end

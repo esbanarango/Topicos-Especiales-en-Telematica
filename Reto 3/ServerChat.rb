@@ -57,11 +57,36 @@ class ServerChat
     private 
     
     def register(socket, client_addrinfo)
+        existe = false
         username = socket.readline.chomp
         uri = socket.readline.chomp
-        user = User.new(uri,username)
-        @users[user] = socket
-        puts "A new user has entered"+ rojo(" -> ") +"#{username}\n"
+        @users.keys.each do |user|
+          if(user.userName == username)
+            existe = true
+            if(user.state=='Offline')
+              user.state = 'Online'
+              user.uri = uri
+              @users[user] = socket
+              puts "#{username} has logged back in"
+              socket.puts("Welcome")
+            elsif(user.state=='Busy' || user.state='Online')
+              socket.puts("Este usuario ya esta conectado")
+              newUserName = socket.gets.chomp
+              while(username == newUserName)     
+                socket.puts("Este usuario ya esta conectado")
+                newUserName = socket.gets.chomp
+              end
+              existe = false
+              username = newUserName
+            end
+          end
+        end 
+        if not existe
+          user = User.new(uri,username)
+          @users[user] = socket
+          puts "A new user has entered"+ rojo(" -> ") +"#{username}\n"
+          socket.puts("Welcome")
+        end               
     end
 end
 
