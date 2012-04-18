@@ -9,7 +9,7 @@
 =end
 
 #Expresiones regulares para los mensajes proveninetes del los usuarios
-RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION|QUIT APP) *(?<user>\(.{1,}\))?}
+RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION|QUIT APP|RESP CONVER) *(?<user>\(.{1,}\))?}
 RegResps = %r{(Y|y|S|s|Yes|YES|yes|YeS|yEs|si|Si|sI)}
 
 
@@ -73,12 +73,10 @@ module Main
                                         if(user.state == 'Online')
                                         	socket.puts ("Waiting for #{userName} responses...")
                                         	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
-                                        	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.")
-                                            @users[user].puts ("Would you like too?(Y/N)\n")
-                                                
-                                        	resp = @users[user].readline.chomp
-                                            #puts ("Pillatea: "+resp)
-        									if (resp=~RegResps  || resp == nil || resp =="" )
+                                        	@users[user].puts ("User "+verde("#{userConectTo.userName}")+" wants to chat with you.")
+                                            @users[user].puts ("Would you like too?(Y/N)")
+                                            resp = @users[user].readline.chomp
+        									if resp=~RegResps
         										@users[user].puts("NEW CONECTION #{uriUserConectTo}")     #El se conecta conmigo
         										@users[user].puts @time.strftime("%Y-%m-%d %H:%M:%S")     #Muestro el tiempo de la conversación
                                                 @users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")

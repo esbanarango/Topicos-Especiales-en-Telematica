@@ -163,6 +163,7 @@ class ClientChat < User
 	        		mandar(@userName,line)
 	        	end
 	        else
+	        	puts "piiiilla"+line
 	        	@socket.puts line
 	        end	
 	      end

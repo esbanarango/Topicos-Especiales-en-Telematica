@@ -20,14 +20,6 @@ module Color
 end
 
 module Help
-	def helpAdmin
-		puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
-    	puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t- "+amarillo("LIST USERS")+gris("\t\t\t => Lists all clients that are currently conected in the server")
-    	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the available commands")
-    	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program")
-	end
 
 	def helpUser
 		puts "\t\t"+amarillo("* "*12)
