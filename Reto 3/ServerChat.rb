@@ -1,5 +1,5 @@
 =begin
-    Archivo: serverChat.rb
+    Archivo: ServerChat.rb
     Topicos Especiales en Telematica, Abril 2012
         Implementación de un servicio de presencia
 

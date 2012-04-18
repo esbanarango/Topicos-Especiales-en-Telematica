@@ -120,11 +120,17 @@ class ClientChat < User
 		        if line=~ /(NEW CONECTION) (.+)/i
 		        	@chat = DRbObject.new nil, $2
 		        	system "clear"
-		        elsif line=~ /(ERR) (1|2)/
+		        elsif line=~ /(ERR) (1|2|3)/
 		        	case $2
 			    		when "1"
-			    			#system "clear"
-			    			puts amarillo("Command not found")			    					    	
+			    			system "clear"
+			    			puts amarillo("Command not found")
+			    			puts amarillo("Type '-help' to see the avalible commands")
+		    			when "2"
+		    			system "clear"
+		    			puts rojo("Invalid command")
+		    			puts amarillo("Did you mean?")+" -> "+verde("'CHAT (user_name)'")
+		    			puts amarillo("Type '-help' to see the avalible commands")				    					    	
 				    end
 				else
 					puts line	
