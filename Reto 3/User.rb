@@ -5,6 +5,7 @@ class User
     	@uri=uri
     	@userName=userName
     	@state="Online"
+    	@offlineMessages={}
     end
 
 end

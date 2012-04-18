@@ -10,6 +10,7 @@
 
 #Expresiones regulares para los mensajes proveninetes del los usuarios
 RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION|QUIT APP) ?(?<user>\(.{1,}\))?}
+RegResps = %r{Y|y|S|s|Yes|YES|yes|YeS|yEs|si|Si|sI}
 
 
 module Main
@@ -27,6 +28,7 @@ module Main
                         @users.keys.each do |user|
                             if(user.userName == userName)
                                 user.state = 'Online'
+                                messagesOffline(userName)
                             end
                     end
                     when "QUIT APP"
@@ -51,45 +53,61 @@ module Main
                         end
                         socket.puts "\n"
                     when "CHAT" 
-                        #Verificar que no sea el mismo
                         userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
+
+                        #Flags decisiones importantes
                         existe=false
+                        messages=false
+
                         userConectTo= @users.invert[socket] #My information
                         uriUserConectTo = userConectTo.uri
-                        @users.keys.each do |user|
-                            if(user.userName == userName) 
-                                existe=true
-                                if(user.state == 'Online')
-                                	socket.puts ("Waiting for #{userName} responses...")
-                                	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
-                                	@users[user].print ("User #{userConectTo.userName} wants to chat with you.\nWould you like too?(Y/N)")
-                                	resp = @users[user].readline.chomp
-                                    puts ("Pillatea: "+resp)
-									if(resp.upcase == 'Y')
-										@users[user].puts("NEW CONECTION #{uriUserConectTo}")    #El se conecta conmigo
-										@users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")
-	                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 
-	                                    socket.puts ("Your now connected with "+verde("#{userName}")+".")
-	                                    user.state = userConectTo.state ='Busy'
-									else
-										socket.puts ("User #{userName} does not want to chat with you.")							
-										break
-									end
-                                elsif (user.state == 'Busy')
-                                   socket.puts "User #{userName} is busy at this moment, you may interrupt."
-                                else
-                                   socket.puts "User #{userName} is offline at this moment."
-                                end                                            
+                        #Verificar que no sea el mismo
+                        if userConectTo.userName == userName
+                            socket.puts ("You can not chat with yourself!.")   
+                        else
+                            @users.keys.each do |user|
+                                if(user.userName == userName) 
+                                    existe=true
+                                    if(user.state == 'Online')
+                                    	socket.puts ("Waiting for #{userName} responses...")
+                                    	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
+                                    	@users[user].puts ("User #{userConectTo.userName} wants to chat with you.")
+                                        @users[user].puts ("Would you like too?(Y/N)\n")
+                                            
+                                    	resp = @users[user].readline.chomp
+                                        #puts ("Pillatea: "+resp)
+    									if resp=~RegResps
+    										@users[user].puts("NEW CONECTION #{uriUserConectTo}")     #El se conecta conmigo
+    										@users[user].puts @time.strftime("%Y-%m-%d %H:%M:%S")     #Muestro el tiempo de la conversación
+                                            @users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")
+    	                                    socket.puts ("NEW CONECTION #{user.uri}")                 #Me conecto con el 
+    	                                    socket.puts @time.strftime("%Y-%m-%d %H:%M:%S")
+                                            socket.puts ("Your now connected with "+verde("#{userName}")+".")
+    	                                    user.state = userConectTo.state ='Busy'
+    									else
+    										socket.puts ("User "+verde("#{userName}")+" does not want to chat with you.")
+    									end
+                                    elsif (user.state == 'Busy')
+                                       socket.puts ("User "+verde("#{userName}")+" is busy at this moment, you may interrupt.")
+                                       messages=true
+                                    else
+                                       socket.puts ("User "+verde("#{userName}")+" is offline at this moment.")
+                                       messages=true
+                                    end  
+                                    break   #Lo encontré me salgo el for                                       
+                                end
                             end
-                        end
-                        if(!existe)
-                            socket.puts "User #{userName} does not exist!."
-                        end                                     
+                            if(messages)
+                                leaveMessages(socket,userConectTo.userName,userName)
+                            end
+                            if(!existe)
+                                socket.puts "User #{userName} does not exist!."
+                            end 
+                        end                                    
                 end#case
             else
                 socket.puts "ERR 1"
             end
         end#while
-	end	
-
+	end
 end

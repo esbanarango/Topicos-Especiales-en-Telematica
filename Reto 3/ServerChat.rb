@@ -14,7 +14,7 @@ def Kernel.is_windows?
 end
 
 require "socket"
-require 'nokogiri'
+#require 'nokogiri'
 require 'readline'
 if Kernel.is_windows? == true
   require 'win32console'
@@ -30,11 +30,12 @@ class ServerChat
     include Help
     include Main
 
-    attr_accessor :puerto, :users
+    attr_accessor :puerto, :users, :time
 
     def initialize(puerto=1212)
         @puerto = puerto
-        @users = {}                            
+        @users = {}
+        @time = Time.new                            
     end
 
     def run
@@ -67,13 +68,14 @@ class ServerChat
               user.state = 'Online'
               user.uri = uri
               @users[user] = socket
-              puts "#{username} has logged back in"
-              socket.puts("Welcome")
+              puts "User "+rojo("->")+" #{username} has logged back in."
+              socket.puts purpura("Welcome back!")
+              messagesOffline(username)            #Voy a buscar si tiene algún mensaje cuando estaba offline
             elsif(user.state=='Busy' || user.state='Online')
-              socket.puts("Este usuario ya esta conectado")
+              socket.puts("This users is already conected.")
               newUserName = socket.gets.chomp
               while(username == newUserName)     
-                socket.puts("Este usuario ya esta conectado")
+                socket.puts("This users is already conected.")
                 newUserName = socket.gets.chomp
               end
               existe = false
@@ -85,9 +87,54 @@ class ServerChat
           user = User.new(uri,username)
           @users[user] = socket
           puts "A new user has entered"+ rojo(" -> ") +"#{username}\n"
-          socket.puts("Welcome")
+          socket.puts purpura("Welcome")
         end               
     end
+
+    #Función encargada de verificar si el usuario tiene mensaje offline
+    def messagesOffline(userName)
+      @users.keys.each do |user|
+          if(user.userName == userName)
+              if not user.offlineMessages.empty?
+                @users[user].puts ("\n")
+                @users[user].puts ("You received "+rojo("#{user.offlineMessages.length}")+" message(s) while you were busy/offline.")
+                @users[user].puts rojo("--------------------------------")
+                @users[user].puts amarillo("Messages: ")
+                user.offlineMessages.each do |userMessages, message|
+                  @users[user].puts verde("#{userMessages}")+":"
+                  @users[user].puts "#{message}"
+                end
+                #Limpio los mensajes
+                user.offlineMessages.clear 
+              end
+              break 
+          end
+      end
+    end
+
+    #Función encargada de los mensajes offline y busy
+    def leaveMessages(socket,myUserName,userName)
+        socket.puts "Would you like to leave a messages?.(Y/N) "
+        resp = socket.readline.chomp
+        if resp=~RegResps
+            socket.puts("Messages to "+verde("#{userName}")+": ")
+            offlineMessage =@time.strftime("%Y-%m-%d %H:%M:%S")
+            mgs = socket.readline.chomp
+            offlineMessage += " "+mgs
+            @users.keys.each do |user|
+                if(user.userName == userName)
+                    if(user.offlineMessages[myUserName] == nil)
+                        user.offlineMessages[myUserName] = offlineMessage #Dejo un mensaje a mi nombre en el buzon de el
+                    else
+                        user.offlineMessages[myUserName] += "\n"+offlineMessage #Dejo un mensaje a mi nombre en el buzon de
+                    end
+                    break 
+                end
+            end
+            socket.puts "Your message has been left in "+verde("#{userName}")+" inbox."
+        end
+    end 
+
 end
 
 #Corriendo...

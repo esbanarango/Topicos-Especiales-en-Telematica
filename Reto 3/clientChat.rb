@@ -1,5 +1,5 @@
 =begin
-    Archivo: clientChat.rb
+    Archivo: ClientChat.rb
     Topicos Especiales en Telematica, Abril 2012
         Implementación de un servicio de presencia
 
@@ -15,7 +15,7 @@ end
 
 
 require "socket"
-require 'nokogiri'
+#require 'nokogiri'
 require 'readline'
 require 'drb'
 if Kernel.is_windows? == true
@@ -65,20 +65,17 @@ class ClientChat < User
 	    	#puts myUri
 	    	@socket.puts myUri	
 	    	reply = @socket.gets.chomp
-	    	while (reply!='Welcome')
+
+	    	system "clear"
+	    	puts rojo("Conected...")
+	    	while (reply!=purpura('Welcome') && reply!=purpura("Welcome back!"))
 	    		puts(reply)
 	    		print gris("Enter an username: ")
 		    	@userName = STDIN.gets.chomp
 		    	@socket.puts @userName
 		    	reply = @socket.gets.chomp
 	    	end
-
-
-
-
-	    	system "clear"
-
-	      	puts rojo("Conected...")
+	    	puts (reply)
 	      	puts amarillo("Type '-help' to see the avalible commands")
 
 	    	hiloLeer = Thread.new { leer }
@@ -100,9 +97,8 @@ class ClientChat < User
 			@socket.puts("QUIT CONVERSATION (#{@userName})")
 			@state = "Online"
 		else
-			print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{from}: ")
+			print verde("#{from} says: ")
 	   	 	print("#{messages}\n")
-	   	 	print @time.strftime("%Y-%m-%d %H:%M:%S")+" "+rojo("#{@userName}: ")
 		end
 	end
 
@@ -117,15 +113,18 @@ class ClientChat < User
 	private
 
 	def leer
-		
 		begin
 	      while not @socket.eof?
 		        line = @socket.gets.chomp
 		        if line=~ /(NEW CONECTION) (.+)/i
 		        	@chat = DRbObject.new nil, $2
 		        	system "clear"
-
-
+		        elsif line=~ /(ERR) (1|2)/
+		        	case $2
+			    		when "1"
+			    			#system "clear"
+			    			puts amarillo("Command not found")			    					    	
+				    end
 				else
 					puts line	
 		        end	
@@ -164,6 +163,7 @@ end
 
 $client = nil
 
+#Trap cntrl-c
 trap("SIGINT") do
 		$client.end
  end
