@@ -75,7 +75,7 @@ class ClientChat < User
 		    	@socket.puts @userName
 		    	reply = @socket.gets.chomp
 	    	end
-	    	puts (reply)
+	    	puts (reply)+" "+@userName
 	      	puts amarillo("Type '-help' to see the avalible commands")
 
 	    	hiloLeer = Thread.new { leer }
@@ -123,7 +123,6 @@ class ClientChat < User
 		        elsif line=~ /(ERR) (1|2|3)/
 		        	case $2
 			    		when "1"
-			    			system "clear"
 			    			puts amarillo("Command not found")
 			    			puts amarillo("Type '-help' to see the avalible commands")
 		    			when "2"

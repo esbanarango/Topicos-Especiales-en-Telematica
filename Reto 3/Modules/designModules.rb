@@ -34,8 +34,8 @@ module Help
     	puts "\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
     	puts "\t\t"+amarillo("* "*12)
     	puts "    - "+amarillo("LIST USERS")+gris("\t\t => Lists the status of all the users.")
-        puts "    - "+amarillo("CHAT (user_name)")+gris("\t => Starts a conversation with 'user-name'.")
-        puts "    - "+amarillo("-QUIT CONVERSATION")+gris("\t\t => Leaves your current conversation'.")
+        puts "    - "+amarillo("CHAT (user_name)")+gris("\t\t => Starts a conversation with 'user-name'.")
+        puts "    - "+amarillo("-QUIT CONVERSATION")+gris("\t => Leaves your current conversation'.")
     	puts "    - "+amarillo("-HELP")+gris("\t\t\t => Shows all the available commands.")
     	puts "    - "+amarillo("QUIT")+gris("\t\t\t => Quits the program.")
 	end

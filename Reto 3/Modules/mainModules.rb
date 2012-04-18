@@ -78,7 +78,7 @@ module Main
                                                 
                                         	resp = @users[user].readline.chomp
                                             #puts ("Pillatea: "+resp)
-        									if resp=~RegResps
+        									if (resp=~RegResps  || resp == nil || resp =="" )
         										@users[user].puts("NEW CONECTION #{uriUserConectTo}")     #El se conecta conmigo
         										@users[user].puts @time.strftime("%Y-%m-%d %H:%M:%S")     #Muestro el tiempo de la conversación
                                                 @users[user].puts("Your now connected with "+verde("#{userConectTo.userName}")+".")
