@@ -93,6 +93,7 @@ class ClientChat < User
   	end
 	def recibir(from,messages)
 		if messages == "__DISCONNECT"
+			system "clear"
 			@chat = nil
 			@socket.puts("QUIT CONVERSATION (#{@userName})")
 			@state = "Online"
@@ -147,7 +148,15 @@ class ClientChat < User
 	      	elsif line == "QUIT" || line == "quit"
 	        	exit
 	        elsif @chat != nil
-	        	mandar(@userName,line)
+	        	if(line.upcase == "-QUIT CONVERSATION")
+	        		system "clear"
+	        		mandar(@userName,"__DISCONNECT")
+	        		@chat = nil
+					@socket.puts("QUIT CONVERSATION (#{@userName})")
+					@state = "Online"
+	        	else
+	        		mandar(@userName,line)
+	        	end
 	        else
 	        	@socket.puts line
 	        end	

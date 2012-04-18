@@ -24,10 +24,7 @@ module Help
 		puts "\t\t\t"+amarillo("* "*12)
     	puts "\t\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
     	puts "\t\t\t"+amarillo("* "*12)
-    	puts "\t- "+amarillo("LIST CH")+gris("\t\t\t => Lists all channels that are currently active in the server")
-    	puts "\t- "+amarillo("LIST CLIENTS")+gris("\t\t\t => Lists all clients that are currently conected in the server")
-    	puts "\t- "+amarillo("NEW CH (ChannelName)")+gris("\t\t => Creates a new channel")
-    	puts "\t- "+amarillo("REMOVE CH (Channel1,...)")+gris("\t => Removes multiple channels")
+    	puts "\t- "+amarillo("LIST USERS")+gris("\t\t\t => Lists all clients that are currently conected in the server")
     	puts "\t- "+amarillo("-HELP")+gris("\t\t\t\t => Shows all the available commands")
     	puts "\t- "+amarillo("QUIT")+gris("\t\t\t\t => Quits the program")
 	end
@@ -38,6 +35,7 @@ module Help
     	puts "\t\t"+amarillo("* "*12)
     	puts "    - "+amarillo("LIST USERS")+gris("\t\t => Lists the status of all the users.")
         puts "    - "+amarillo("CHAT (user_name)")+gris("\t\t => Starts a conversation with 'user-name'.")
+        puts "    - "+amarillo("-QUIT CONVERSATION")+gris("\t\t => Leaves your current conversation'.")
     	puts "    - "+amarillo("-HELP")+gris("\t\t\t => Shows all the available commands.")
     	puts "    - "+amarillo("QUIT")+gris("\t\t\t => Quits the program.")
 	end

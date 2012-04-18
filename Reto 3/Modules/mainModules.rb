@@ -10,7 +10,7 @@
 
 #Expresiones regulares para los mensajes proveninetes del los usuarios
 RegUserActions = %r{(?<cdg>(?i)LIST USERS|CHAT|QUIT CONVERSATION|QUIT APP) ?(?<user>\(.{1,}\))?}
-RegResps = %r{Y|y|S|s|Yes|YES|yes|YeS|yEs|si|Si|sI}
+RegResps = %r{(Y|y|S|s|Yes|YES|yes|YeS|yEs|si|Si|sI)}
 
 
 module Main
@@ -28,6 +28,8 @@ module Main
                         @users.keys.each do |user|
                             if(user.userName == userName)
                                 user.state = 'Online'
+                                @users[user].puts ("You have just left you last conversation.")
+                                @users[user].puts amarillo("Type '-help' to see the avalible commands")
                                 messagesOffline(userName)
                             end
                     end
