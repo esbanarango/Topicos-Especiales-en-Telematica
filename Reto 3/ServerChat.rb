@@ -22,7 +22,7 @@ end
 
 load "Modules/mainModules.rb"
 load "Modules/designModules.rb"
-load "user.rb"
+load "User.rb"
 
 class ServerChat
 
