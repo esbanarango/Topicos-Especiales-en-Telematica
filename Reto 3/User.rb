@@ -7,6 +7,7 @@
             Sebastian Duque Jaramillo
             Daniel Julian Duque Tirado
 =end
+
 class User
 	attr_accessor :uri, :userName, :state, :offlineMessages, :response, :response_text
 
