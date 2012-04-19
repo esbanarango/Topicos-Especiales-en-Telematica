@@ -10,6 +10,8 @@ m
    * [Daniel Duque Tirado](https://github.com/DanielJDuque)
    * [Sebastian Duque Jaramillo](https://github.com/sduquej)
 
+##Descripción
+
 Para la implementación de este reto utilizamos Drb ([Distributed object system for Ruby](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/drb/rdoc/DRb.html)) en todo el manejo de Invocación remota de métodos; Drb facilita muchisimo la codificación de programas distribuidos al igual que se cuenta con muy buen material de apoyo ([Tutoriales](http://segment7.net/projects/ruby/drb/introduction.html) y api's).
 
 ######Ejemplo.
