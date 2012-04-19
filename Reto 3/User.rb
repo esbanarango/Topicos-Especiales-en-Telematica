@@ -8,13 +8,14 @@
             Daniel Julian Duque Tirado
 =end
 class User
-	attr_accessor :uri, :userName, :state, :offlineMessages
+	attr_accessor :uri, :userName, :state, :offlineMessages, :response, :response_text
 
     def initialize(uri,userName)
     	@uri=uri
     	@userName=userName
     	@state="Online"
     	@offlineMessages={}
+        @response=false
     end
 
 end

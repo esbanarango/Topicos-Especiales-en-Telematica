@@ -19,7 +19,8 @@ module Main
 		while not socket.eof?
             line = socket.readline.chomp
             r = RegUserActions.match(line)
-            unless r.nil?
+            userOwner = @users.invert[socket]
+            if !(r.nil?)
                 code = r[:cdg]
                 code.upcase!
                 case code
@@ -31,15 +32,20 @@ module Main
                                 @users[user].puts ("You have just left you last conversation.")
                                 @users[user].puts amarillo("Type '-help' to see the avalible commands")
                                 messagesOffline(userName)
+                                #Server info
+                                puts "User "+ verde(userName)+" has left his/her last conversation."
+                                break
                             end
-                    end
+                        end
                     when "QUIT APP"
                         userName = r[:user].to_s.sub!(/\(/,'').sub!(/\)/,'')
                         @users.keys.each do |user|
                             if(user.userName == userName)
                                 user.state = 'Offline'
+                                puts "User "+ verde(userName)+" has gone :(."
+                                break
                             end
-                    end
+                        end
                     when "LIST USERS"
                         socket.puts gris("Online users:")
                         @users.keys.each do |user|  
@@ -75,7 +81,18 @@ module Main
                                         	#Pregunto primero si el otro peer si desea 'chatiar' conmigo
                                         	@users[user].puts ("User "+verde("#{userConectTo.userName}")+" wants to chat with you.")
                                             @users[user].puts ("Would you like too?(Y/N)")
-                                            resp = @users[user].readline.chomp
+
+                                            #Indico que estoy esperando por una respuesta de este socket
+                                            user.response=true
+                                            resp = ""
+                                            
+                                            #Manejo de concurrencia #Espero activa buuuuuu
+                                            while (user.response==true)
+                                                next
+                                            end
+
+                                            resp=user.response_text
+
         									if resp=~RegResps
         										@users[user].puts("NEW CONECTION #{uriUserConectTo}")     #El se conecta conmigo
         										@users[user].puts @time.strftime("%Y-%m-%d %H:%M:%S")     #Muestro el tiempo de la conversación
@@ -84,6 +101,8 @@ module Main
         	                                    socket.puts @time.strftime("%Y-%m-%d %H:%M:%S")
                                                 socket.puts ("Your now connected with "+verde("#{userName}")+".")
         	                                    user.state = userConectTo.state ='Busy'
+                                                #Server information
+                                                puts "Users "+verde(userConectTo.userName)+" and "+verde(userName)+" are in a conversation."
         									else
         										socket.puts ("User "+verde("#{userName}")+" does not want to chat with you.")
         									end
@@ -108,6 +127,9 @@ module Main
                             socket.puts "ERR 2"     #No mandó nada en el user
                         end                                    
                 end#case
+            elsif (userOwner.response==true)
+                userOwner.response_text=line.chomp
+                userOwner.response=false
             else
                 socket.puts "ERR 1"
             end

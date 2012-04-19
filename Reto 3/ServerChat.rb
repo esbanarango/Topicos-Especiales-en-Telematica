@@ -40,7 +40,7 @@ class ServerChat
 
     def run
         puts rojo("Server running...")
-        
+        puts "Here you will be able to see all the application activity."
         # hiloAdministrador = Thread.new {mainADMIN} #Main principal del administrador
 
         Socket.tcp_server_loop(@puerto) {|socket, client_addrinfo|
@@ -75,7 +75,7 @@ class ServerChat
               socket.puts("This users is already conected.")
               newUserName = socket.gets.chomp
               while(username == newUserName)     
-                socket.puts("This users is already conected.")
+                socket.puts("This users is already conected. Try a different username.")
                 newUserName = socket.gets.chomp
               end
               existe = false
@@ -114,8 +114,10 @@ class ServerChat
 
     #Función encargada de los mensajes offline y busy
     def leaveMessages(socket,myUserName,userName)
+        
         socket.puts "Would you like to leave a messages?.(Y/N) "
-        resp = socket.readline.chomp
+        #Aqui situación de carrera ya qeu es el mismo socket
+        resp=socket.readline.chomp
         if resp=~RegResps
             socket.puts("Messages to "+verde("#{userName}")+": ")
             offlineMessage =@time.strftime("%Y-%m-%d %H:%M:%S")

@@ -151,6 +151,7 @@ class ClientChat < User
 	      	if line == "-HELP" || line == "-help"
 	      		helpUser
 	      	elsif line == "QUIT" || line == "quit"
+	        	@socket.puts("QUIT APP (#{@userName})")
 	        	exit
 	        elsif @chat != nil
 	        	if(line.upcase == "-QUIT CONVERSATION")
@@ -163,7 +164,6 @@ class ClientChat < User
 	        		mandar(@userName,line)
 	        	end
 	        else
-	        	puts "piiiilla"+line
 	        	@socket.puts line
 	        end	
 	      end
