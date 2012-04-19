@@ -3,6 +3,17 @@
 Implementación de un servicio de presencia (estilo mensajería instantánea) con un chat sencillo. El servicio de presencia consiste en conocer el estado de mis contactos o de los miembros de la red basado en grupos. El estado se refiere a: _contectado_, _desconectado_, _ocupado_. (utiliza mecanismos similares a messager o skype). El segundo servicio consiste en un chat sencillo con los usuarios en línea.
 
 ###Reto 3
+Para la implementación de este reto utilizamos Drb ([Distributed object system for Ruby](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/drb/rdoc/DRb.html)) en todo el manejo de Invocación remota de métodos; Drb facilita muchisimo la codificación de programas distribuidos al igual que se cuenta con muy buen material de apoyo ([tutoriales](http://segment7.net/projects/ruby/drb/introduction.html) y api's).
+
+#####Ejemplo.
+```ruby
+	#Creo la uri Drb (ej. druby://localhost:8787) y me expongo
+	DRb.start_service nil, self 
+
+	#Obtengo un objeto que está expuesto en la uri especificada
+	DRbObject.new nil, uri 
+```
+
 
  **Por:**
   
@@ -31,19 +42,22 @@ Teniendo en ejecución el servidor podemos correr _ClientChat.rb_ el número de 
 ######Server Running:
 Durante toda la ejecución de la aplicación, en el servidor se podrá ver la actividad de los usuarios.
 
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/servidorRunning.png?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/servidorRunning.png?raw=true)
 
 ######Users interactions:
 
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/userHelp.jpg?raw=true)
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/listUsers.jpg?raw=true)
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/chatting.jpg?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/userHelp.jpg?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/listUsers.jpg?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/chatting.jpg?raw=true)
 
-######Offline messages *Plus*:
+######Offline messages, *Plus*:
 
 >"Plus1: si los usuarios NO están conectados, puede implementar una entrega de mensajes offline, es decir, almacenará los mensajes, hasta >que el usuario se conecte de nuevo."
 
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlineMessages.jpg?raw=true)
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlineMessages-2.jpg?raw=true)
-![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlinemessagesShow.jpg?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlineMessages.jpg?raw=true)
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlineMessages-2.jpg?raw=true)
+
+Recepción de los mensajes offline cuando el usuario vuelve a estado _Online_
+
+	![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%203/Docs/Screenshots/offlinemessagesShow.jpg?raw=true)
 
