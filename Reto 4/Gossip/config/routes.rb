@@ -1,9 +1,11 @@
 Gossip::Application.routes.draw do
-  resources :rooms
+  resources :rooms do
+    resources :messages
+  end
 
   resources :users
 
-  resources :messages
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
