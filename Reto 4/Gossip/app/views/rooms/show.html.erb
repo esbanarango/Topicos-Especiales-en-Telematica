@@ -1,14 +1,36 @@
 <h1>Chat</h1>
+<div class="span4">
+	<div class="well sidebar-nav" id="users">
+		<ul class="nav nav-list" id="user-list">
+			<li class="nav-header">
+				Gossip
+			</li>
+			<li class="nav-header">
+				Users (<span id="num-users">1</span>)
+			</li>
+			<li>
+				<a href="#users/c3">
+					<i class="icon-star"></i>
+					esban+
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="span8" id="messages">
+	<div class="row" id="messages-inner">
+		<ul id="chat">
+		  <%= render @messages %>
+		</ul>
+	</div>
+	<div class="row" id="input">
+		<%= form_for ([@room, @new_message]), remote: true, :html => { :class => "well"}  do |f| %>
+		  <%= f.text_field :room_id, :type => :hidden,  :value => "#{@room.id}" %>
+		  <%= f.text_field :content %>
+		  <%= f.submit "Send" %>
+		<% end %>
+	</div>
+</div>
 
-<ul id="chat">
-  <%= render @messages %>
-</ul>
 
-<%= form_for ([@room, @new_message]), remote: true do |f| %>
-  <%= f.text_field :room_id, :type => :hidden,  :value => "2" %>
-  <%= f.text_field :user_id, :type => :hidden,  :value => "1" %>
-  <%= f.text_field :content %>
-  <%= f.submit "Send" %>
-<% end %>
-
-<%= subscribe_to "/rooms/2" %>
+<%= subscribe_to "/rooms/#{@room.id}" %>

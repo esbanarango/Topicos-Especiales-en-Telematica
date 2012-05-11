@@ -1,4 +1,5 @@
  class RoomsController < ApplicationController
+  before_filter :current_user?
   # GET /rooms
   # GET /rooms.json
   def index
@@ -16,18 +17,17 @@
     @room = Room.find(params[:id])
     @messages = @room.messages.all
     @new_message = Message.new
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @room }
-    end
+    render :layout => "chat_layout"
+    #respond_to do |format|
+    #  format.html # show.html.erb
+    #  format.json { render json: @room }
+    #end
   end
 
   # GET /rooms/new
   # GET /rooms/new.json
   def new
     @room = Room.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @room }

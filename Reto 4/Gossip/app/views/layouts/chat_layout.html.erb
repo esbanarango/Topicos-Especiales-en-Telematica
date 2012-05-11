@@ -11,7 +11,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<%= render 'layouts/header' %>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">Gossip Chat</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><%= link_to "Rooms", rooms_path %></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li><%= link_to "Login", signin_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container">
 
 	<% flash.each do |name, msg| %>
@@ -20,18 +39,12 @@
 			<%= msg  %>
 		</div>
 	<% end %>
+
 	<div class="row">
-		<div class="span9">
 			<%= yield %>
-		</div>
-		<div class="span3">
-			<h2>About Gossip</h2>
-				<p>Gossip Chat is a bad-ass chat application, where you can find the hottest gossips around you.
-          It was developed by some amazing and super talented guys at EAFIT University.
-        </p>        
-		</div>
 	</div>
-  <%= render 'layouts/footer' %>
+
+
 </div>
 
 
