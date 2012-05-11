@@ -1,4 +1,4 @@
-class RoomsController < ApplicationController
+ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
@@ -14,6 +14,8 @@ class RoomsController < ApplicationController
   # GET /rooms/1.json
   def show
     @room = Room.find(params[:id])
+    @messages = @room.messages.all
+    @new_message = Message.new
 
     respond_to do |format|
       format.html # show.html.erb

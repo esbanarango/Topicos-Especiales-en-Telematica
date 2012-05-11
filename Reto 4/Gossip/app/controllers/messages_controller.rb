@@ -40,8 +40,9 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(params[:message])
-
+    @message = Message.create!(params[:message])
+    PrivatePub.publish_to("/rooms/2", "")
+=begin
     respond_to do |format|
       if @message.save
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
@@ -51,6 +52,7 @@ class MessagesController < ApplicationController
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PUT /messages/1

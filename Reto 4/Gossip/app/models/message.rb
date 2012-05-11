@@ -12,7 +12,7 @@
 #
 
 class Message < ActiveRecord::Base
-
+  attr_accessible :content, :room_id, :user_id
   before_save :truncated
 
   private

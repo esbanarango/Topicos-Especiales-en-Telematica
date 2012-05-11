@@ -41,16 +41,24 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
+=begin
+    if @user.save
+      flash[:success] = "Welcome to Gossip"
+      redirect_to @user
+    else
+      render 'new'
+    end
+=end
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, flash[:success] = "Welcome to the Sample App!" }
+        format.html { redirect_to @user, notice: "Welcome to Gossip!" }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PUT /users/1
