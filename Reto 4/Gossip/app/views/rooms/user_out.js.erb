@@ -1,0 +1,8 @@
+<% publish_to "/rooms/#{@room.id}" do %>
+  $("a#<%= @user.id%>").slideUp();
+  var numUsers = parseInt($("#num-users").text());
+  numUsers--;
+   $("#num-users").text(numUsers);
+  
+  console.log("Seeee fue nea")
+<% end %>

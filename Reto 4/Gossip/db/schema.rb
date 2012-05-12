@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120510010046) do
+ActiveRecord::Schema.define(:version => 20120512025746) do
 
   create_table "messages", :force => true do |t|
     t.string   "content",    :limit => 160, :null => false

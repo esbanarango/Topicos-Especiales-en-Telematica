@@ -11,7 +11,8 @@
 
 class User < ActiveRecord::Base
   attr_accessible :username, :password, :password_confirmation
-
+  attr_protected :user_id
+  
   has_and_belongs_to_many :rooms
 
   has_many :messages

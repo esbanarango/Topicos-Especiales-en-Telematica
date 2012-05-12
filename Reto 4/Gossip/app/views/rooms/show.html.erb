@@ -6,13 +6,22 @@
 				Gossip
 			</li>
 			<li class="nav-header">
-				Users (<span id="num-users"><%= @totalUsers%></span>)
+				Users (<span id="num-users"><%= @usersIn.size%></span>)
 			</li>
-			<li>
-				<a href="#users/c3">
-					<i class="icon-star"></i>
-					esban+
-				</a>
+			<li id="liUsers">
+
+				  <% for user in @usersIn %>
+				    <% if user.id == current_user.id %>
+				    	<a href="#" id="<%= user.id%>">
+							<i class="icon-star"></i>
+							<%= user.username%>
+						</a>
+					<% else %>
+						<a href="#" id="<%= user.id%>">
+							<%= user.username%>
+						</a>
+					<% end %>
+				  <% end %>
 			</li>
 		</ul>
 	</div>
@@ -37,11 +46,21 @@
 		$.ajax({
 			type: "GET",
           	async:false,
-          	url: "/rooms/<%= @room.id%>/userOut/<%= current_user.id%>.json",
+          	url: "/rooms/<%= @room.id%>/user_out/<%= current_user.id%>",
           	dataType: "json"
           	}).done(function() { 
             	console.log("Chao!");
           	});
     });
+
+	<% publish_to "/rooms/#{@room.id}" do %>
+	  var numUsers = parseInt($("#num-users").text());
+	  numUsers++;
+	   $("#num-users").text(numUsers);
+	   $('#liUsers').append("<a id='<%= current_user.id%>'><%= current_user.username%></a>")
+	<% end %>
+
+
+
 </script>
 <%= subscribe_to "/rooms/#{@room.id}" %>

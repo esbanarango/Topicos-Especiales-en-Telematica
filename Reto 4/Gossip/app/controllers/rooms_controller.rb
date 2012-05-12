@@ -1,7 +1,7 @@
  class RoomsController < ApplicationController
   before_filter :current_user?
 
-  respond_to :json, :html
+  #respond_to :json, :html, :js
 
   # GET /rooms
   # GET /rooms.json
@@ -17,19 +17,18 @@
   # GET /rooms/1
   # GET /rooms/1.json
   def show
-
+    @user = current_user
     @room = Room.find(params[:id])
-    #@room.users.create!(:user_id => current_user.id)
+    #New user enter to the room
+    RoomsUsers.create!({:user_id => @user.id, :room_id => @room.id})
 
-    @totalUsers = @room.users.size
+    @usersIn= @room.users.reverse!
 
     @messages = @room.messages.all
     @new_message = Message.new
+
+    #PrivatePub.publish_to("/rooms/#{@room.id}", "console.log('entro otra nea')")
     render :layout => "chat_layout"
-    #respond_to do |format|
-    #  format.html # show.html.erb
-    #  format.json { render json: @room }
-    #end
   end
 
   # GET /rooms/new
@@ -91,10 +90,12 @@
     end
   end
 
-  def userOut
-    @room.users.find(params[:id]).destroy
-    puts "aaaaaaaaaaaa "+params[:id]
-    respond_with({:response => "listo"}, :location => rooms_url)
+  def user_out
+    @user = current_user
+    @room = Room.find(params[:room_id])
+    @room.users.destroy(@user)
+    PrivatePub.publish_to("/rooms/#{@room.id}", "")
+    #respond_with({:response => "listo"}, :location => rooms_url)
   end
 
 

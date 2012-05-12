@@ -17,8 +17,8 @@ Gossip::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', via: :delete
   
 
-  match '/rooms/:room_id/userOut/:id',  to: 'rooms#userOut', :via => 'GET'
-  match '/rooms/:room_id/userReport/:id',  to: 'rooms#userReport', :via => 'GET'
+  match '/rooms/:room_id/user_out/:id',  to: 'rooms#user_out', :via => 'GET'
+  match '/rooms/:room_id/user_report/:id',  to: 'rooms#user_report', :via => 'GET'
   
 
   # The priority is based upon order of creation:

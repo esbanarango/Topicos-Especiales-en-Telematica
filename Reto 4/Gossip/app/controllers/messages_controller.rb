@@ -45,7 +45,7 @@ class MessagesController < ApplicationController
     @message.user_id = current_user.id 
     @message.save
     puts "/rooms/#{@message.room_id}"
-    PrivatePub.publish_to("/rooms/#{@message.room_id}", "")
+    #PrivatePub.publish_to("/rooms/#{@message.room_id}", "")
 =begin
     respond_to do |format|
       if @message.save
