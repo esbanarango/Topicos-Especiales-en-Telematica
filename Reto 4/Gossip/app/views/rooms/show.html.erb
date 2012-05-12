@@ -6,7 +6,7 @@
 				Gossip
 			</li>
 			<li class="nav-header">
-				Users (<span id="num-users">1</span>)
+				Users (<span id="num-users"><%= @totalUsers%></span>)
 			</li>
 			<li>
 				<a href="#users/c3">
@@ -32,5 +32,16 @@
 	</div>
 </div>
 
-
+<script type="text/javascript">
+	$(window).bind('beforeunload', function() {
+		$.ajax({
+			type: "GET",
+          	async:false,
+          	url: "/rooms/<%= @room.id%>/userOut/<%= current_user.id%>.json",
+          	dataType: "json"
+          	}).done(function() { 
+            	console.log("Chao!");
+          	});
+    });
+</script>
 <%= subscribe_to "/rooms/#{@room.id}" %>

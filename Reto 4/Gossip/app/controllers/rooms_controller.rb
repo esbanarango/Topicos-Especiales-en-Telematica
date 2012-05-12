@@ -1,5 +1,8 @@
  class RoomsController < ApplicationController
   before_filter :current_user?
+
+  respond_to :json, :html
+
   # GET /rooms
   # GET /rooms.json
   def index
@@ -14,7 +17,12 @@
   # GET /rooms/1
   # GET /rooms/1.json
   def show
+
     @room = Room.find(params[:id])
+    #@room.users.create!(:user_id => current_user.id)
+
+    @totalUsers = @room.users.size
+
     @messages = @room.messages.all
     @new_message = Message.new
     render :layout => "chat_layout"
@@ -82,4 +90,12 @@
       format.json { head :no_content }
     end
   end
+
+  def userOut
+    @room.users.find(params[:id]).destroy
+    puts "aaaaaaaaaaaa "+params[:id]
+    respond_with({:response => "listo"}, :location => rooms_url)
+  end
+
+
 end
