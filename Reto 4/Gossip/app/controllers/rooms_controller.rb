@@ -1,13 +1,15 @@
  class RoomsController < ApplicationController
   before_filter :current_user?
 
+  load_and_authorize_resource
+
+  skip_load_and_authorize_resource :only => :user_out  
+
   #respond_to :json, :html, :js
 
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @rooms }
@@ -18,7 +20,7 @@
   # GET /rooms/1.json
   def show
     @user = current_user
-    @room = Room.find(params[:id])
+    #@room = Room.find(params[:id])
     #New user enter to the room
     RoomsUsers.create!({:user_id => @user.id, :room_id => @room.id})
 
@@ -34,7 +36,6 @@
   # GET /rooms/new
   # GET /rooms/new.json
   def new
-    @room = Room.new
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @room }
@@ -43,13 +44,11 @@
 
   # GET /rooms/1/edit
   def edit
-    @room = Room.find(params[:id])
   end
 
   # POST /rooms
   # POST /rooms.json
   def create
-    @room = Room.new(params[:room])
 
     respond_to do |format|
       if @room.save
@@ -65,7 +64,6 @@
   # PUT /rooms/1
   # PUT /rooms/1.json
   def update
-    @room = Room.find(params[:id])
 
     respond_to do |format|
       if @room.update_attributes(params[:room])
@@ -81,7 +79,6 @@
   # DELETE /rooms/1
   # DELETE /rooms/1.json
   def destroy
-    @room = Room.find(params[:id])
     @room.destroy
 
     respond_to do |format|
