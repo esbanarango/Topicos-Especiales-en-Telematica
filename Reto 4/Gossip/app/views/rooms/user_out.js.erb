@@ -1,8 +1,18 @@
 <% publish_to "/rooms/#{@room.id}" do %>
-  $("a#<%= @user.id%>").slideUp();
-  var numUsers = parseInt($("#num-users").text());
-  numUsers--;
-   $("#num-users").text(numUsers);
+
+  var elems = $("a.user_<%= @user.id%>").nextAll(), count = elems.length;
+  //Hide the user and then remove it form the DOM	
+  $("a.user_<%= @user.id%>").each(function(){
+	  	$(this).slideUp("fast",function(){
+	  		$(this).remove();
+	  		//Decrease the number of users in the room
+	  		if (count==0) $("#num-users").text($("#liUsers a").size());
+	  	});
+	});
   
-  console.log("Seeee fue nea")
+  
+<% end %>
+
+<% publish_to "/rooms/#{@room.id}" do %>
+	$("#num-users").text($("#liUsers a").size())
 <% end %>

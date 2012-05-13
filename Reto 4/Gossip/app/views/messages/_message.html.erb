@@ -1,4 +1,6 @@
 <li>
+  <span data-id="<%= message.user_id %>" class="bodyMessages <%= (current_user.id == message.user_id)? 'me':'' %>"><%= User.find(message.user_id).username %>:</span>	
   <span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
-  <%= message.content %>
+  <div class="content"><%= message.content %></div>
+  
 </li>

@@ -3,10 +3,8 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <% if current_user.admin %>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
       <%end%>
@@ -15,10 +13,8 @@
   <tbody>
     <% @rooms.each do |room| %>
       <tr>
-        <td><%= link_to room.id, room_path(room) %></td>
-        <td><%= room.name %></td>
+        <td><%= link_to room.name, room_path(room) %></td>
         <td><%= room.description %></td>
-        <td><%=l room.created_at %></td>
         <% if can? :update, room %>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

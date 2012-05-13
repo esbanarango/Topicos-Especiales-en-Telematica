@@ -3,7 +3,7 @@
 	<div class="well sidebar-nav" id="users">
 		<ul class="nav nav-list" id="user-list">
 			<li class="nav-header">
-				Gossip
+				<%= @room.name %>
 			</li>
 			<li class="nav-header">
 				Users (<span id="num-users"><%= @usersIn.size%></span>)
@@ -12,12 +12,12 @@
 
 				  <% for user in @usersIn %>
 				    <% if user.id == current_user.id %>
-				    	<a href="#" id="<%= user.id%>">
+				    	<a href="#" class="elpropio user_<%= user.id%>" id="<%= user.id%>">
 							<i class="icon-star"></i>
 							<%= user.username%>
 						</a>
 					<% else %>
-						<a href="#" id="<%= user.id%>">
+						<a href="#" class="user_<%= user.id%>" id="<%= user.id%>">
 							<%= user.username%>
 						</a>
 					<% end %>
@@ -54,13 +54,11 @@
     });
 
 	<% publish_to "/rooms/#{@room.id}" do %>
-	  var numUsers = parseInt($("#num-users").text());
-	  numUsers++;
-	   $("#num-users").text(numUsers);
-	   $('#liUsers').append("<a id='<%= current_user.id%>'><%= current_user.username%></a>")
+	   $('#liUsers').append("<a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>")
+	   $("#num-users").text($("#liUsers a").size());
 	<% end %>
 
-
+	$("#messages-inner").animate({ scrollTop: $("#chat").prop('scrollHeight')}, 1000);
 
 </script>
 <%= subscribe_to "/rooms/#{@room.id}" %>

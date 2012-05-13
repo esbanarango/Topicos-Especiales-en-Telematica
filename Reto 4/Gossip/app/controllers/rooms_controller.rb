@@ -92,7 +92,6 @@
     @room = Room.find(params[:room_id])
     @room.users.destroy(@user)
 
-    puts "pillate quedan: #{@room.users.size}"
     #If there are no more users, all the messages are deleted
     if @room.users.size == 0
       @room.messages.delete_all
