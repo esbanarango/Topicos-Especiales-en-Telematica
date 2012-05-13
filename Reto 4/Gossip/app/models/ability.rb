@@ -9,6 +9,7 @@ class Ability
 		else
 			can :read, :all
 			can :create, Message
+			can :create, User
 			can :update, User do |_user|
 				_user == user
 			end

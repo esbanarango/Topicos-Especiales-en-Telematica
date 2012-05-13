@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :rooms
 
-  has_many :messages
+  has_many :messages, :dependent => :destroy
 
   has_secure_password
 

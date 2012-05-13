@@ -14,7 +14,8 @@ class Room < ActiveRecord::Base
 
 	has_and_belongs_to_many :users
   	
-  	has_many :messages
+  	has_many :messages, :dependent => :destroy
+  	accepts_nested_attributes_for :messages, :allow_destroy => true
 
   	validates :name, presence: true
   	validates :description, presence: true

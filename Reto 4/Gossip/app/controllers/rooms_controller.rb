@@ -91,8 +91,13 @@
     @user = current_user
     @room = Room.find(params[:room_id])
     @room.users.destroy(@user)
+
+    puts "pillate quedan: #{@room.users.size}"
+    #If there are no more users, all the messages are deleted
+    if @room.users.size == 0
+      @room.messages.delete_all
+    end
     PrivatePub.publish_to("/rooms/#{@room.id}", "")
-    #respond_with({:response => "listo"}, :location => rooms_url)
   end
 
 
