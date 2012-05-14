@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    flash[:error] = "Sorry something went wrong :("
     redirect_to error_url
   end
 
