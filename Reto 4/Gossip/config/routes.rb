@@ -4,6 +4,8 @@ Gossip::Application.routes.draw do
 
   match '/', to: 'static_pages#home'
 
+  match '/error', to: 'static_pages#error'
+
   resources :rooms do
     resources :messages
   end

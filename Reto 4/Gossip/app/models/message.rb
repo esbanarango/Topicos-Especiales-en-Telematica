@@ -19,7 +19,7 @@ class Message < ActiveRecord::Base
   # Longer username than 40 will be truncated
 	def truncated
 		if self[:content].size > 160
-			self[:content] = self[:username][0..159]
+			self[:content] = self[:content][0..159]
 		end
 	end
 end
