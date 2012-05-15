@@ -1,9 +1,9 @@
  class RoomsController < ApplicationController
-  before_filter :current_user?
+  before_filter :current_user?, :except => [:api_rooms]
 
   load_and_authorize_resource
 
-  skip_load_and_authorize_resource :only => :user_out  
+  skip_load_and_authorize_resource :only => [:user_out, :api_rooms]
 
   #respond_to :json, :html, :js
 
@@ -97,6 +97,15 @@
       @room.messages.delete_all
     end
     PrivatePub.publish_to("/rooms/#{@room.id}", "")
+  end
+
+
+  # GET /API/rooms.json
+  def api_rooms
+    @rooms = Room.all
+    respond_to do |format|
+      format.json { render json: @rooms }
+    end
   end
 
 

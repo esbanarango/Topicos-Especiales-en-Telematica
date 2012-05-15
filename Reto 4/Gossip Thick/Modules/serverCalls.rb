@@ -22,13 +22,15 @@ module ServerCalls
 
     def getData(path,data)
         request = Net::HTTP::Get.new(path+".json")
-        request.set_form_data(data)
+        if !data.empty?
+            request.set_form_data(data)
+        end
         response = @http.request(request)
         JSON.parse(response.body)
     end
 
-    def postData(path,data)
-        request = Net::HTTP::Post.new(path+".json")
+    def postData(path,data,json)
+        request = Net::HTTP::Post.new(path+((json) ? ".json" : ""))
         request.set_form_data(data)
         response = @http.request(request)
         #puts "Si sera el post:"+JSON.parse(response.body).inspect

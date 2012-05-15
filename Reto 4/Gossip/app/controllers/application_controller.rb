@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user
   helper_method :current_user?
+  helper_method :is_it_js?
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = "Access denied!"
@@ -23,6 +24,9 @@ class ApplicationController < ActionController::Base
   
   def current_user
     return @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  def is_it_js?
+    request.format.js?
   end
 
 end

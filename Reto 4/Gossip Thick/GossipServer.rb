@@ -38,12 +38,12 @@ class GossipServer
 	include ServerCalls
 	include Main
 
-	attr_accessor :serverUri, :username, :user_id, :http, :current_room_id
+	attr_accessor :serverUri, :username, :user_id, :http, :current_room_id, :channels
 
 	def initialize
 		config = YAML.load_file(File.expand_path("./config/config.yml"))
 		@serverUri = URI(config["server"]) 
-
+		@channels = {}
 		@http = Net::HTTP.new(@serverUri.host, @serverUri.port)
     end
 
@@ -57,7 +57,6 @@ class GossipServer
         identify()
         mainThread = Thread.new { main }
         #receiveMessageThread = Thread.new { receiveMessage }
-        #sendMessageThread = Thread.new { sendMessage }
     end
 
     private
@@ -145,10 +144,10 @@ class GossipServer
     		when "existUser"
     			(userExist(data)['response'] == "yes") ? true : false 
     		when "signin"
-    			postData("/sessions",data)
+    			postData("/sessions",data,true)
     		when "signup"	
     			# POST /users.json
-    			postData("/users",data)		    					    	
+    			postData("/users",data,true)		    					    	
 		end
 
     	

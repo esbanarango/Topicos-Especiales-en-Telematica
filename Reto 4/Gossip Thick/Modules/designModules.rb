@@ -22,13 +22,13 @@ end
 
 module Help
 
+#RegUserActions = %r{(?<cdg>(?i)LIST CHANNELS|JOIN CHANNEL) *(?<user>\(.{1,}\))?}
 	def helpUser
 		puts "\t\t"+amarillo("* "*12)
     	puts "\t\t"+amarillo("* ")+verde("Available commands: ")+amarillo("*")
     	puts "\t\t"+amarillo("* "*12)
-    	puts "    - "+amarillo("LIST USERS")+gris("\t\t => Lists the status of all the users.")
-        puts "    - "+amarillo("CHAT (user_name)")+gris("\t\t => Starts a conversation with 'user-name'.")
-        puts "    - "+amarillo("-QUIT CONVERSATION")+gris("\t => Leaves your current conversation'.")
+    	puts "    - "+amarillo("LIST CHANNELS")+gris("\t\t => Lists all the channels.")
+        puts "    - "+amarillo("JOIN CHANNEL (channel_name)")+gris("\t\t => Joins the channel 'channel_name'.")
     	puts "    - "+amarillo("-HELP")+gris("\t\t\t => Shows all the available commands.")
     	puts "    - "+amarillo("QUIT")+gris("\t\t\t => Quits the program.")
 	end

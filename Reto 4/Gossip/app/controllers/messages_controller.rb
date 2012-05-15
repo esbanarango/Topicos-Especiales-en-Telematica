@@ -1,4 +1,7 @@
 class MessagesController < ApplicationController
+
+  include MessageModule
+
   # GET /messages
   # GET /messages.json
   def index
@@ -86,4 +89,26 @@ class MessagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  #  match '/API/messages.json',  to: 'messages#api_create', :via => 'POST'
+  def api_create
+    @message = Message.new
+    @message.user_id = params[:message][:user_id]
+    @message.room_id = params[:message][:room_id]
+    @message.content = params[:message][:content]
+    @message.save
+    jsScript = createMessage(@message)
+    puts jsScript
+    PrivatePub.publish_to("/rooms/#{@message.room_id}", jsScript)
+
+    respond_to do |format|
+      if @message.update_attributes(params[:message])
+        format.json { render json: @message}
+      else
+        format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
 end

@@ -24,6 +24,8 @@ Gossip::Application.routes.draw do
 
   #Gossip Thick Routes
   match '/users/exists/:username',  to: 'users#exists', :via => 'GET'
+  match '/API/rooms',  to: 'rooms#api_rooms', :via => 'GET'
+  match '/API/messages',  to: 'messages#api_create', :via => 'POST'
 
 
 end
