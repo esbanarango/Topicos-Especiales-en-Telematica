@@ -55,7 +55,6 @@ class GossipServer
     	puts "\tproceed with the Signup process!. :)"
         #Sigin or Singup
         identify()
-        puts "\tWelcome to Gossip Chat and thank you for use our service.!"
         mainThread = Thread.new { main }
         #receiveMessageThread = Thread.new { receiveMessage }
         #sendMessageThread = Thread.new { sendMessage }
