@@ -1,9 +1,11 @@
  class RoomsController < ApplicationController
-  before_filter :current_user?, :except => [:api_rooms]
+  before_filter :current_user?, :except => [:api_rooms, :api_join_room, :api_leave_room]
 
   load_and_authorize_resource
 
-  skip_load_and_authorize_resource :only => [:user_out, :api_rooms]
+  skip_load_and_authorize_resource :only => [:user_out, :api_rooms, :api_join_room, :api_leave_room]
+
+  include APIModule
 
   #respond_to :json, :html, :js
 
@@ -99,6 +101,7 @@
     PrivatePub.publish_to("/rooms/#{@room.id}", "")
   end
 
+#------------API METHODS
 
   # GET /API/rooms.json
   def api_rooms
@@ -106,6 +109,36 @@
     respond_to do |format|
       format.json { render json: @rooms }
     end
+  end
+
+  # GET    /API/rooms/:id/join(.:format)                  
+  def api_join_room
+
+    #Generate de js to publish
+    jsScript = newUserEnter(params[:user_id])
+    PrivatePub.publish_to("/rooms/#{params[:room_id]}", jsScript)
+
+    respond_to do |format|
+        format.json { render json: {response: "Enter success"}, status: :unprocessable_entity }
+      end
+
+  end 
+
+  # GET    /API/rooms/:id/leave(.:format)
+  def api_leave_room
+
+
+    @user = User.find(params[:user_id])
+    #Generate de js to publish
+    jsScript = userLeaves(@user)
+    puts jsScript
+    PrivatePub.publish_to("/rooms/#{params[:room_id]}", jsScript)
+
+    respond_to do |format|
+      format.json { render json: {response: "Bye"}, status: :unprocessable_entity }
+    end
+
+     
   end
 
 

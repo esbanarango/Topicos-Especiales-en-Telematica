@@ -38,13 +38,14 @@ class GossipServer
 	include ServerCalls
 	include Main
 
-	attr_accessor :serverUri, :username, :user_id, :http, :current_room_id, :channels
+	attr_accessor :serverUri, :username, :user_id, :http, :current_room_id, :channels, :lastMessage, :connected
 
 	def initialize
 		config = YAML.load_file(File.expand_path("./config/config.yml"))
 		@serverUri = URI(config["server"]) 
 		@channels = {}
 		@http = Net::HTTP.new(@serverUri.host, @serverUri.port)
+		@connected =false
     end
 
     def run
@@ -64,7 +65,7 @@ class GossipServer
     def identify
 		print gris("\tUsername: ")
 		@username = STDIN.gets.chomp
-		if serverCall("existUser", username)
+		if serverCall("existUser", @username)
 			signin
 		else
 			system "clear"

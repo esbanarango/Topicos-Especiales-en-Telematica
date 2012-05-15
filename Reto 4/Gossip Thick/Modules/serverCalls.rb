@@ -20,8 +20,8 @@ module ServerCalls
 
 	end
 
-    def getData(path,data)
-        request = Net::HTTP::Get.new(path+".json")
+    def getData(path,data,json)
+        request = Net::HTTP::Get.new(path+((json) ? ".json" : ""))
         if !data.empty?
             request.set_form_data(data)
         end

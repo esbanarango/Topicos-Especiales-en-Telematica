@@ -34,7 +34,7 @@ module Main
                     code.upcase!
                     case code
                         when "LIST CHANNELS"
-                           @channels = getData("/API/rooms","")                
+                           @channels = getData("/API/rooms","",true)                
                            @channels.each { |channel|  
                                 puts "\t => "+verde(channel['name'])
                            }
@@ -48,9 +48,14 @@ module Main
                                         break
                                     end
                                }
-                               #receiveMessageThread = Thread.new { receiveMessage }
-                               insideChannel
-                               #receiveMessageThread.kill
+                                
+                               data = {"user_id" => @user_id,
+                                        "room_id" => @current_room_id,
+                               }
+                               getData('/API/rooms/join',data,true)
+                               receiveMessageThread = Thread.new { receiveMessage }
+                               insideChannelThread = Thread.new { insideChannel }
+                               receiveMessageThread.join
                             else
                                 system "clear"
                                 puts rojo("\tInvalid command")
@@ -80,15 +85,22 @@ module Main
         begin
           while not STDIN.eof?
                 line = STDIN.gets.chomp
-                data = {    "message[user_id]"                => @user_id,
-                            "message[room_id]"                => @current_room_id,
-                            "message[content]"                => line
-                }
-                sendMessage(data)
-                print "\t-> " 
+                if line == "QUIT" || line == "quit"
+                    exit
+                else
+                    data = {    "message[user_id]"                => @user_id,
+                                "message[room_id]"                => @current_room_id,
+                                "message[content]"                => line
+                    }
+                    sendMessage(data)
+                    print "\t-> " 
+                end
           end
         rescue SystemExit, Interrupt
-            puts("Good Bye! :).")
+            data = {    "user_id" => @user_id,
+                        "room_id" => @current_room_id,
+                    }
+            getData('/API/rooms/leave',data,true)
             Thread.list.each { |t| t.kill }
         rescue Exception => e
           puts "Ha ocurrido un error: #{e}"      
@@ -100,8 +112,22 @@ module Main
     end
 
     def receiveMessage
-        while(true)
+        begin
+            loop do
+                msgs = getData('rooms/#{@current_room_id}/messages',"",true)
+                msgs.each_with_index do |msg,i|
+                    puts rojo(msg["user_id"].to_s)+":"+msg["content"] if msg["id"]>@lastMessage
+                    if (i == (msgs.length - 1) )
+                        @lastMessage=msg[:id]
+                    end
+                end
+                sleep(2)
+            end
+        rescue Exception => e
+          puts "Ha ocurrido un error: #{e}"      
         end
     end
+
+
 
 end

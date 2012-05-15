@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
 
-  include MessageModule
+  include APIModule
 
   # GET /messages
   # GET /messages.json
@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
   end
 
   # PUT /messages/1
-  # PUT /messages/1.json
+  # PUT /messages/1.json 
   def update
     @message = Message.find(params[:id])
 
@@ -90,6 +90,8 @@ class MessagesController < ApplicationController
     end
   end
 
+
+  #API METHOD
   #  match '/API/messages.json',  to: 'messages#api_create', :via => 'POST'
   def api_create
     @message = Message.new
@@ -97,8 +99,9 @@ class MessagesController < ApplicationController
     @message.room_id = params[:message][:room_id]
     @message.content = params[:message][:content]
     @message.save
+
+    #Generate de js to publish
     jsScript = createMessage(@message)
-    puts jsScript
     PrivatePub.publish_to("/rooms/#{@message.room_id}", jsScript)
 
     respond_to do |format|
