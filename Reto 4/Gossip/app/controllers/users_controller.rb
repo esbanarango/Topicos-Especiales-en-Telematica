@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
 
   load_and_authorize_resource
+  skip_load_and_authorize_resource :only => :exists  
 
+  respond_to :json, :html
 
   # GET /users
   # GET /users.json
@@ -80,5 +82,15 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+
+  ##Desktop Methods
+  # GET /users/exists/:username.json
+  def exists
+    response = "no"
+    if User.find_by_username(params[:username])
+      response = "yes"
+    end
+    respond_with({:response => response}, :location => users_url)
   end
 end

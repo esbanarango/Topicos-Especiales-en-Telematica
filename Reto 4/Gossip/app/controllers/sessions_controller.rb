@@ -7,14 +7,17 @@ class SessionsController < ApplicationController
   end
 
   def create
-
     user = User.find_by_username(params[:session][:username])
-    if user && user.authenticate(params[:session][:password])
-      session[:user_id] = user.id
-      redirect_to user
-    else
-      flash.now[:error] = 'Invalid email/password combination'
-      render 'new'
+    respond_to do |format|
+      if user && user.authenticate(params[:session][:password])
+        session[:user_id] = user.id
+        format.html { redirect_to user }
+        format.json { render json: user, status: :created, location: user }
+      else
+        flash.now[:error] = 'Invalid username/password combination'
+        format.html { render action: "new" }
+        format.json { render json: {response: "Invalid username/password combination"}, status: :unprocessable_entity }
+      end
     end
   end
 
