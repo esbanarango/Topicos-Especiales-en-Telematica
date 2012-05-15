@@ -53,24 +53,25 @@ module Main
                                         break
                                     end
                                }
-                                
-                               data = {"user_id" => @user_id,
-                                        "room_id" => @current_room_id,
-                               }
-                               
-                               jsonResponse =   getData('/API/rooms/join',data,true)  
-                               #If there is a 'response' key in the hash, then everything went well.
-                               if jsonResponse['response']
-                                    system "clear"
-                                    @connected= true
-                                    puts("Your now in Room: "+verde("#{joinChannelName}")+".")
+                               if(@current_room_id == 0)
+                                    puts rojo("\tRoom not found.")
+                                    print "\t-> "
                                else
-                                    @current_room_id = 0
-                                    puts(rojo("\tServer Error:")+" Sorry apparently there was an error with the server.")
-                                    puts("\t\tTry again in a while.")
-                               end 
-
-                               
+                                    data = {"user_id" => @user_id,
+                                        "room_id" => @current_room_id
+                                    }
+                                    jsonResponse =   getData('/API/rooms/join',data,true)  
+                                    #If there is a 'response' key in the hash, then everything went well.
+                                    if jsonResponse['response']
+                                        system "clear"
+                                        @connected= true
+                                        puts("Your now in Room: "+verde("#{joinChannelName}")+".")
+                                    else
+                                        @current_room_id = 0
+                                        puts(rojo("\tServer Error:")+" Sorry apparently there was an error with the server.")
+                                        puts("\t\tTry again in a while.")
+                                     end 
+                                end
                             else
                                 system "clear"
                                 puts rojo("\tInvalid command")

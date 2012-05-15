@@ -50,8 +50,9 @@ class GossipServer
 		@channels = getData("/API/rooms","",true)
 		@users = {}
 		
-		@connected =false
+		@connected = false
 		@lastMessage = 0
+        @current_room_id = 0
 		@newInTheChannel = true #To show my old messages but not the new ones
     end
 

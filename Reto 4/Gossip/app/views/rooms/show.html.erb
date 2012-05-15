@@ -17,9 +17,29 @@
 							<%= user.username%>
 						</a>
 					<% else %>
-						<a href="#" class="user_<%= user.id%>" id="<%= user.id%>">
+						<a href="#" class="user_<%= user.id%> parner" id="<%= user.id%>">
 							<%= user.username%>
 						</a>
+						<div id="private_message_<%= user.id%>" class="private_messages">
+							<header class="header_private">Internal Gossip...<div class="shh">"Shhhhh"</div></header>
+							<div class="content">
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								<p>sffsfsdfds</p>
+								</div>
+							<footer><div class="arrow">→</div>
+
+							</footer>
+							<%= subscribe_to "/rooms/#{@room.id}/user/#{user.id}" %>
+						</div>
 					<% end %>
 				  <% end %>
 			</li>

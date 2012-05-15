@@ -42,3 +42,70 @@ footer ul li {
   float: left;
   margin-left: 10px;
 }
+
+
+.parner{cursor: pointer;}
+
+.private_messages{
+  display: none;
+  height: 140px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 1px 1px 7px 2px;
+  background: white;
+  border: 1px solid #DDD;
+}
+.private_messages .content{
+  height: 50%;
+  width: 95%;
+  padding: 5px;
+  overflow: scroll;
+  margin: 0 auto;
+}
+
+.private_messages header{
+  font-size:11px;
+  padding: 1px 5px;
+  border-bottom: 1px solid #EEE;
+}
+
+.private_messages header .shh{
+  display: inline;
+  float: right;
+}
+
+
+
+.private_messages footer{
+  font-size:13px;
+  margin: 0px;
+  padding-top: 5px;
+  border: none;
+  /*border-top: 1px solid #EAEAEA;*/
+  color: #999;
+}
+
+.private_messages footer .arrow{
+  font-size:13px;
+  display: inline;
+  margin-right:5px;
+}
+
+.private_messages footer form{
+  display: inline;
+}
+
+.private_messages footer input{
+  width: 81%;
+  height: 80%;
+  border: none;
+  margin: 0 auto;
+}
+
+
+
+
+
+
+
+

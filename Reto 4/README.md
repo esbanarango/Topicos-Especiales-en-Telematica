@@ -18,3 +18,7 @@
 ##Descripción
 
 ...
+
+##Resources
+
+	Room chat design taken from [Liam Kaufman](http://liamkaufman.com/)
