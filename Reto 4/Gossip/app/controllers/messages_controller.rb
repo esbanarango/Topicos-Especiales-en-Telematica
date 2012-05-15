@@ -5,11 +5,11 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
-
+    @messages = Message.where("room_id = ?", params[:room_id])
+    totalMessages = (@messages.size>10) ? 9 : @messages.size
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @messages }
+      format.json { render json:  @messages.reverse[0..totalMessages].reverse }
     end
   end
 

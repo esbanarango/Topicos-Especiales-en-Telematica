@@ -16,17 +16,22 @@ RegResps = %r{(Y|y|S|s|Yes|YES|yes|YeS|yEs|si|Si|sI)}
 module Main
 
     def main
-        system "clear"
-        puts "\tWelcome to Gossip Chat and thank you for use our service.!"
-        puts "\tType "+amarillo('-help')+" to see the avalible commands"
-        print "\t-> "
+        welcome
         begin
           while not STDIN.eof?
             line = STDIN.gets.chomp
             if line == "-HELP" || line == "-help"
                 helpUser
+                print "\t-> "
             elsif line == "QUIT" || line == "quit"
-                exit
+                if(@connected)
+                    leave_channel
+                    welcome
+                else
+                    exit
+                end
+            elsif @connected
+                insideChannel(line)
             else
                 r = RegUserActions.match(line)
                 if !(r.nil?)
@@ -52,10 +57,20 @@ module Main
                                data = {"user_id" => @user_id,
                                         "room_id" => @current_room_id,
                                }
-                               getData('/API/rooms/join',data,true)
-                               receiveMessageThread = Thread.new { receiveMessage }
-                               insideChannelThread = Thread.new { insideChannel }
-                               receiveMessageThread.join
+                               
+                               jsonResponse =   getData('/API/rooms/join',data,true)  
+                               #If there is a 'response' key in the hash, then everything went well.
+                               if jsonResponse['response']
+                                    system "clear"
+                                    @connected= true
+                                    puts("Your now in Room: "+verde("#{joinChannelName}")+".")
+                               else
+                                    @current_room_id = 0
+                                    puts(rojo("\tServer Error:")+" Sorry apparently there was an error with the server.")
+                                    puts("\t\tTry again in a while.")
+                               end 
+
+                               
                             else
                                 system "clear"
                                 puts rojo("\tInvalid command")
@@ -80,31 +95,33 @@ module Main
         end
     end
 
-    def insideChannel
+    def welcome
+        system "clear"
+        puts "\tWelcome to Gossip Chat and thank you for use our service.!"
+        puts "\tType "+amarillo('-help')+" to see the avalible commands"
+        puts "\tThese are the available rooms:!"
+        @channels = getData("/API/rooms","",true)                
+        @channels.each { |channel| 
+            puts "\t => "+verde(channel['name'])
+        }
         print "\t-> "
-        begin
-          while not STDIN.eof?
-                line = STDIN.gets.chomp
-                if line == "QUIT" || line == "quit"
-                    exit
-                else
-                    data = {    "message[user_id]"                => @user_id,
-                                "message[room_id]"                => @current_room_id,
-                                "message[content]"                => line
-                    }
-                    sendMessage(data)
-                    print "\t-> " 
-                end
-          end
-        rescue SystemExit, Interrupt
-            data = {    "user_id" => @user_id,
-                        "room_id" => @current_room_id,
-                    }
-            getData('/API/rooms/leave',data,true)
-            Thread.list.each { |t| t.kill }
-        rescue Exception => e
-          puts "Ha ocurrido un error: #{e}"      
-        end
+    end
+
+    def leave_channel
+        data = {    "user_id" => @user_id,
+                            "room_id" => @current_room_id,
+                        }
+        getData('/API/rooms/leave',data,true)
+        @current_room_id = 0
+        @connected = false
+    end
+
+    def insideChannel(line)
+        data = {    "message[user_id]"                => @user_id,
+                    "message[room_id]"                => @current_room_id,
+                    "message[content]"                => line
+                }
+        sendMessage(data)
     end
 
     def sendMessage(data)
@@ -112,19 +129,29 @@ module Main
     end
 
     def receiveMessage
-        begin
-            loop do
-                msgs = getData('rooms/#{@current_room_id}/messages',"",true)
+        while true
+            if(@connected)
+                msgs = getData("/rooms/#{@current_room_id}/messages","",true)
                 msgs.each_with_index do |msg,i|
-                    puts rojo(msg["user_id"].to_s)+":"+msg["content"] if msg["id"]>@lastMessage
-                    if (i == (msgs.length - 1) )
-                        @lastMessage=msg[:id]
+                    if msg["id"]>@lastMessage and @newInTheChannel
+                        if !@users.has_key?(msg["user_id"])
+                            newUser = getData("/API/users/#{msg['user_id']}","",true)
+                            @users[msg["user_id"]] = newUser["response"]["username"]
+                        end
+                        puts rojo(@users[msg["user_id"]])+":"+msg["content"]
+                        @lastMessage=msg["id"]
+                    elsif msg["id"]>@lastMessage and msg["user_id"] != @user_id
+                        if !@users.has_key?(msg["user_id"])
+                            newUser = getData("/API/users/#{msg['user_id']}","",true)
+                            @users[msg["user_id"]] = newUser["response"]["username"]
+                        end
+                        puts verde(@users[msg["user_id"]])+":"+msg["content"]
+                        @lastMessage=msg["id"]
                     end
                 end
-                sleep(2)
+                @newInTheChannel=false
             end
-        rescue Exception => e
-          puts "Ha ocurrido un error: #{e}"      
+            sleep(1)
         end
     end
 

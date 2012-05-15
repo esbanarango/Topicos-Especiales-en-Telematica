@@ -38,14 +38,21 @@ class GossipServer
 	include ServerCalls
 	include Main
 
-	attr_accessor :serverUri, :username, :user_id, :http, :current_room_id, :channels, :lastMessage, :connected
+	attr_accessor :serverUri, :username, :user_id, :http, 
+				  :current_room_id, :channels, :lastMessage, 
+				  :connected, :newInTheChannel, :users
 
 	def initialize
 		config = YAML.load_file(File.expand_path("./config/config.yml"))
 		@serverUri = URI(config["server"]) 
-		@channels = {}
 		@http = Net::HTTP.new(@serverUri.host, @serverUri.port)
+
+		@channels = getData("/API/rooms","",true)
+		@users = {}
+		
 		@connected =false
+		@lastMessage = 0
+		@newInTheChannel = true #To show my old messages but not the new ones
     end
 
     def run
@@ -56,8 +63,10 @@ class GossipServer
     	puts "\tproceed with the Signup process!. :)"
         #Sigin or Singup
         identify()
+        receiveMessageThread = Thread.new { receiveMessage }
         mainThread = Thread.new { main }
-        #receiveMessageThread = Thread.new { receiveMessage }
+        receiveMessageThread.join
+        
     end
 
     private
@@ -99,11 +108,13 @@ class GossipServer
     	#If there is a 'response' key in the hash, then there was an error.
     	if jsonResponse['response']
     		system "clear"
-    		puts rojo("\t#{serverCall('signin', data)['response']}")
+    		puts rojo("\t#{jsonResponse['response']}")
     		identify
+    	else
+    		#Otherwise, get the user_id
+    		@user_id = jsonResponse['id']
     	end
-    	#Otherwise, get the user_id
-    	@user_id = jsonResponse['id']
+    	
     end
 
     def signup

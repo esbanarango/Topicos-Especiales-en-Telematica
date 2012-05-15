@@ -114,6 +114,9 @@
   # GET    /API/rooms/:id/join(.:format)                  
   def api_join_room
 
+    #New user enter to the room
+    RoomsUsers.create!({:user_id => params[:user_id], :room_id => params[:room_id]})
+
     #Generate de js to publish
     jsScript = newUserEnter(params[:user_id])
     PrivatePub.publish_to("/rooms/#{params[:room_id]}", jsScript)
@@ -129,10 +132,18 @@
 
 
     @user = User.find(params[:user_id])
+    @room = Room.find(params[:room_id])
+    @room.users.destroy(@user)
+
+    #If there are no more users, all the messages are deleted
+    if @room.users.size == 0
+      @room.messages.delete_all
+    end
+
     #Generate de js to publish
     jsScript = userLeaves(@user)
-    puts jsScript
     PrivatePub.publish_to("/rooms/#{params[:room_id]}", jsScript)
+    PrivatePub.publish_to("/rooms/#{params[:room_id]}", "$('#num-users').text($('#liUsers a').size())")
 
     respond_to do |format|
       format.json { render json: {response: "Bye"}, status: :unprocessable_entity }

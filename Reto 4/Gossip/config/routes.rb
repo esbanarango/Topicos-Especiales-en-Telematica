@@ -22,8 +22,9 @@ Gossip::Application.routes.draw do
   match '/rooms/:room_id/user_out/:id',  to: 'rooms#user_out', :via => 'GET'
   match '/rooms/:room_id/user_report/:id',  to: 'rooms#user_report', :via => 'GET'
 
-  #Gossip Thick Routes
-  match '/users/exists/:username',  to: 'users#exists', :via => 'GET'
+  #------------------------Gossip Thick Routes
+  match '/API/users/exists/:username',  to: 'users#api_exists', :via => 'GET'
+  match '/API/users/:id',  to: 'users#api_info', :via => 'GET'
 
   match '/API/rooms',  to: 'rooms#api_rooms', :via => 'GET'
 

@@ -13,7 +13,7 @@ module ServerCalls
 
     # GET /users/exists/:username.json
 	def userExist(username)
-        request = Net::HTTP::Get.new("/users/exists/#{username}.json")
+        request = Net::HTTP::Get.new("/API/users/exists/#{username}.json")
         response = @http.request(request)
         #puts "Si sera:"+ JSON.parse(response.body).inspect
         JSON.parse(response.body)

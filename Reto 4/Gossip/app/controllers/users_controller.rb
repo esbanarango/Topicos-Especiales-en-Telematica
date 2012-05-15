@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   load_and_authorize_resource
-  skip_load_and_authorize_resource :only => :exists  
+  skip_load_and_authorize_resource :only => [:api_exists, :api_info] 
 
   respond_to :json, :html
 
@@ -85,12 +85,22 @@ class UsersController < ApplicationController
   end
 
   ##Desktop Methods
-  # GET /users/exists/:username.json
-  def exists
+  # GET /API/users/exists/:username.json
+  def api_exists
     response = "no"
     if User.find_by_username(params[:username])
       response = "yes"
     end
     respond_with({:response => response}, :location => users_url)
   end
+  # GET' /API/users/:id 
+  def api_info
+    response = "no"
+    user = User.find(params[:id])
+    if user
+      response = user
+    end
+    respond_with({:response => response}, :location => users_url)
+  end
+
 end

@@ -18,7 +18,8 @@ module APIModule
 			  		//Decrease the number of users in the room
 			  		if (count==0) $('#num-users').text($('#liUsers a').size());
 			  	});
-			});"
+			});
+			"
 		
 	end
 
