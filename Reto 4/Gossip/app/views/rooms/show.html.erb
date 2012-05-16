@@ -23,22 +23,20 @@
 						<div id="private_message_<%= user.id%>" class="private_messages">
 							<header class="header_private">Internal Gossip...<div class="shh">"Shhhhh"</div></header>
 							<div class="content">
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								<p>sffsfsdfds</p>
-								</div>
+								<% for messagePrivate in @privateMessages[user.id] %>
+									<span class="created_at"><%= messagePrivate.created_at.strftime("%H:%M") %></span>
+									<div class="content"><%= messagePrivate.content %></div>
+								<% end %>
+							</div>
 							<footer><div class="arrow">→</div>
-
+								<%= form_for ([@room, @new_message]), remote: true, :url => private_message_path(@room), :html => { :id => "private_input_form_#{user.id}"}  do |f| %>
+								  <%= f.text_field :to, :type => :hidden,  :value => "#{user.id}" %>
+								  <%= f.text_field :content, :required=> "required" %>
+								<% end %>
 							</footer>
-							<%= subscribe_to "/rooms/#{@room.id}/user/#{user.id}" %>
+							<%  orderSubscribeTo =  "/rooms/#{@room.id}/user/#{user.id}/#{current_user.id}".chars.sort.join %>
+							<% puts "veeelo andtes=> "+orderSubscribeTo %>
+							<%= subscribe_to orderSubscribeTo %>
 						</div>
 					<% end %>
 				  <% end %>
@@ -55,7 +53,7 @@
 	<div class="row" id="input">
 		<%= form_for ([@room, @new_message]), remote: true, :html => { :class => "well"}  do |f| %>
 		  <%= f.text_field :room_id, :type => :hidden,  :value => "#{@room.id}" %>
-		  <%= f.text_field :content %>
+		  <%= f.text_field :content, :required=> "required" %>
 		  <%= f.submit "Send" %>
 		<% end %>
 	</div>
@@ -74,7 +72,7 @@
     });
 
 	<% publish_to "/rooms/#{@room.id}" do %>
-	   $('#liUsers').append("<a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>")
+	   $('#liUsers').append("parner <a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>")
 	   $("#num-users").text($("#liUsers a").size());
 	<% end %>
 

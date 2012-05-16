@@ -1,8 +1,8 @@
 development:
-  server: "http://200.12.180.110:9292/faye"
+  server: "http://localhost:9292/faye"
   secret_token: "secret"
 test:
-  server: "http://200.12.180.110:9292/faye"
+  server: "http://localhost:9292/faye"
   secret_token: "secret"
 production:
   server: "http://example.com/faye"

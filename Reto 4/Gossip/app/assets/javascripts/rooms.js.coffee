@@ -6,4 +6,4 @@ jQuery ->
 	#$( document ).on( "click", "#members li a", function( e ) {} );
 	$(document).on "click",".parner", (e)->
 		id = $(@).attr("id")
-		$("#private_message_#{id}").slideToggle()
+		#$("#private_message_#{id}").slideToggle()

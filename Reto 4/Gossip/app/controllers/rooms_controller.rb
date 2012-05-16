@@ -22,13 +22,21 @@
   # GET /rooms/1.json
   def show
     @user = current_user
-    #@room = Room.find(params[:id])
+
     #New user enter to the room
     RoomsUsers.create!({:user_id => @user.id, :room_id => @room.id})
 
     @usersIn= @room.users.reverse!
+    @privateMessages={}
+
+    @usersIn.each { |u|  
+      if u.id != current_user.id
+        @privateMessages[u.id] = Message.where("('messages'.'to'  = ? and 'messages'.'user_id' = ?) or ('messages'.'to' = ? and 'messages'.'user_id' = ?)",current_user.id,u.id,u.id,current_user.id)
+      end
+    }
 
     @messages = @room.messages.all
+
     @new_message = Message.new
 
     #PrivatePub.publish_to("/rooms/#{@room.id}", "console.log('entro otra nea')")

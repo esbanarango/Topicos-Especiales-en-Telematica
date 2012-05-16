@@ -1,0 +1,19 @@
+
+<%  orderSubscribeTo =  "/rooms/#{@message.room_id}/user/#{@message.to}/#{@message.user_id}".chars.sort.join %>
+<% puts "veeelo despues=> "+orderSubscribeTo %>
+<% publish_to orderSubscribeTo do %>
+	alert("aaaaa")
+	/*
+	var content = $("<%= j render(@message) %>");
+	var msgOwner = content.find(".bodyMessages");
+
+	if($(msgOwner).data("id") !=  $(".elpropio").attr("id")){
+		content.find(".bodyMessages").removeClass("me")
+	}
+
+  $("#private_message_<%=@message.user_id%>} .content").append(content);
+  $("#private_message_<%=@message.to%>} .content").append(content);
+*/
+
+<% end %>
+$("#private_input_form_<%=@message.to%>")[0].reset();

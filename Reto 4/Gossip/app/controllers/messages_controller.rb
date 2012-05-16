@@ -62,6 +62,22 @@ class MessagesController < ApplicationController
 =end
   end
 
+  # POST /messages_private.json
+  def create_private
+    @message = Message.new params[:message]
+
+    to_id   = params[:message][:to]
+    room_id = params[:room_id]
+
+    @message.user_id = current_user.id 
+    @message.room_id = params[:room_id]
+    @message.save
+    puts @message.inspect
+
+    orderSubscribeTo =  "/rooms/#{@message.room_id}/user/#{@message.to}/#{@message.user_id}".chars.sort.join
+    PrivatePub.publish_to(orderSubscribeTo, "alert('tranquilidada')")
+  end
+
   # PUT /messages/1
   # PUT /messages/1.json 
   def update
