@@ -1,0 +1,2 @@
+<%  orderSubscribeTo =  "#{@room_id}#{@user_id}#{current_user.id}".chars.sort.join %>
+<%= subscribe_to "/private/#{orderSubscribeTo}" %>

@@ -1,9 +1,8 @@
 
-<%  orderSubscribeTo =  "/rooms/#{@message.room_id}/user/#{@message.to}/#{@message.user_id}".chars.sort.join %>
+<%  orderSubscribeTo =  "#{@message.room_id}#{@message.to}#{@message.user_id}".chars.sort.join %>
 <% puts "veeelo despues=> "+orderSubscribeTo %>
-<% publish_to orderSubscribeTo do %>
-	alert("aaaaa")
-	/*
+<% publish_to "/private/#{orderSubscribeTo}" do %>
+alert("aaaa")
 	var content = $("<%= j render(@message) %>");
 	var msgOwner = content.find(".bodyMessages");
 
@@ -11,9 +10,10 @@
 		content.find(".bodyMessages").removeClass("me")
 	}
 
-  $("#private_message_<%=@message.user_id%>} .content").append(content);
-  $("#private_message_<%=@message.to%>} .content").append(content);
-*/
-
+  $("#private_message_<%=@message.user_id%> .content").append(content);
+  $("#private_message_<%=@message.to%> .content").append(content);
 <% end %>
+
+<% PrivatePub.publish_to "/private/#{orderSubscribeTo}", :chat_message => "Hello, world!" %>
+
 $("#private_input_form_<%=@message.to%>")[0].reset();

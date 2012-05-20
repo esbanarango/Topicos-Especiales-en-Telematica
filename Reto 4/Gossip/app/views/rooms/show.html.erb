@@ -24,8 +24,10 @@
 							<header class="header_private">Internal Gossip...<div class="shh">"Shhhhh"</div></header>
 							<div class="content">
 								<% for messagePrivate in @privateMessages[user.id] %>
+								<div class="p_in">
 									<span class="created_at"><%= messagePrivate.created_at.strftime("%H:%M") %></span>
-									<div class="content"><%= messagePrivate.content %></div>
+									<div class="content_messages"><%= messagePrivate.content %></div>
+								</div>
 								<% end %>
 							</div>
 							<footer><div class="arrow">→</div>
@@ -34,9 +36,10 @@
 								  <%= f.text_field :content, :required=> "required" %>
 								<% end %>
 							</footer>
-							<%  orderSubscribeTo =  "/rooms/#{@room.id}/user/#{user.id}/#{current_user.id}".chars.sort.join %>
-							<% puts "veeelo andtes=> "+orderSubscribeTo %>
-							<%= subscribe_to orderSubscribeTo %>
+							
+							<%  orderSubscribeTo =  "#{@room.id}#{user.id}#{current_user.id}".chars.sort.join %>
+							<%= subscribe_to "/private/#{orderSubscribeTo}" %>
+
 						</div>
 					<% end %>
 				  <% end %>
@@ -70,13 +73,36 @@
             	console.log("Chao!");
           	});
     });
-
+	var privateMessage= ""
 	<% publish_to "/rooms/#{@room.id}" do %>
-	   $('#liUsers').append("parner <a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>")
+	   $('#liUsers').append("<a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>");
 	   $("#num-users").text($("#liUsers a").size());
+
+	   //Subscribe to me.
+	   $.ajax({
+			type: "POST",
+          	url: "/rooms/<%= @room.id%>/subscribe_private",
+          	data:{ user_id: "<%= current_user.id%>"},
+          	success: function(data, textStatus, xhr){
+            
+	            $("#user-list").append(data);
+	            
+	        }
+          }).done(function( html ) {
+          	contenedor.log(html)
+			});
+        //get our messages
+        
+
 	<% end %>
 
 	$("#messages-inner").animate({ scrollTop: $("#chat").prop('scrollHeight')}, 1000);
 
 </script>
 <%= subscribe_to "/rooms/#{@room.id}" %>
+
+
+
+
+
+

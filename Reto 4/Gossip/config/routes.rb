@@ -20,6 +20,7 @@ Gossip::Application.routes.draw do
   
   #Private messages
   match '/rooms/:room_id/messages_private(.:format)',  to: 'messages#create_private', :via => 'POST', :as => "private_message"
+  match '/rooms/:room_id/subscribe_private(.:format)',  to: 'rooms#subscribe_private', :via => 'POST'
 
   match '/rooms/:room_id/user_out/:id',  to: 'rooms#user_out', :via => 'GET'
   match '/rooms/:room_id/user_report/:id',  to: 'rooms#user_report', :via => 'GET'

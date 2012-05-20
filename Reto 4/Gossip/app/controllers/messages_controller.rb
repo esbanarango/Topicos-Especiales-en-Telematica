@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.where("room_id = ?", params[:room_id])
+    @messages = Message.where("room_id = ? and to is null", params[:room_id])
     totalMessages = (@messages.size>10) ? 9 : @messages.size
     respond_to do |format|
       format.html # index.html.erb
@@ -43,23 +43,9 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-
     @message = Message.new params[:message]
     @message.user_id = current_user.id 
     @message.save
-    puts "/rooms/#{@message.room_id}"
-    #PrivatePub.publish_to("/rooms/#{@message.room_id}", "")
-=begin
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render json: @message, status: :created, location: @message }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
-=end
   end
 
   # POST /messages_private.json
@@ -72,10 +58,7 @@ class MessagesController < ApplicationController
     @message.user_id = current_user.id 
     @message.room_id = params[:room_id]
     @message.save
-    puts @message.inspect
 
-    orderSubscribeTo =  "/rooms/#{@message.room_id}/user/#{@message.to}/#{@message.user_id}".chars.sort.join
-    PrivatePub.publish_to(orderSubscribeTo, "alert('tranquilidada')")
   end
 
   # PUT /messages/1

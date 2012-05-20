@@ -1,8 +1,12 @@
 <% publish_to "/rooms/#{@room.id}" do %>
 
-  var elems = $("a.user_<%= @user.id%>").nextAll(), count = elems.length;
+  var elems = $("#liUsers a"), count = elems.length;
   //Hide the user and then remove it form the DOM	
-  $("a.user_<%= @user.id%>").each(function(){
+  var id = <%= @user.id%>
+  $("a.user_"+id).each(function(){
+  		$("#private_message_"+id).slideUp("fast",function(){
+  			$(this).remove();
+  		});
 	  	$(this).slideUp("fast",function(){
 	  		$(this).remove();
 	  		//Decrease the number of users in the room
@@ -14,5 +18,7 @@
 <% end %>
 
 <% publish_to "/rooms/#{@room.id}" do %>
-	$("#num-users").text($("#liUsers a").size())
+	setTimeout("$('#num-users').text($('#liUsers a').size())",500);
+	setTimeout("$('#num-users').text($('#liUsers a').size())",1000);
+	setTimeout("$('#num-users').text($('#liUsers a').size())",1500);
 <% end %>

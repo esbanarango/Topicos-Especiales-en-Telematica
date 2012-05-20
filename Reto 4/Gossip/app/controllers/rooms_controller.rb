@@ -3,7 +3,7 @@
 
   load_and_authorize_resource
 
-  skip_load_and_authorize_resource :only => [:user_out, :api_rooms, :api_join_room, :api_leave_room]
+  skip_load_and_authorize_resource :only => [:user_out, :subscribe_private, :api_rooms, :api_join_room, :api_leave_room]
 
   include APIModule
 
@@ -35,7 +35,7 @@
       end
     }
 
-    @messages = @room.messages.all
+    @messages = @room.messages.where('"messages"."to" is NULL')
 
     @new_message = Message.new
 
@@ -107,6 +107,12 @@
       @room.messages.delete_all
     end
     PrivatePub.publish_to("/rooms/#{@room.id}", "")
+  end
+
+  def subscribe_private
+    @room_id = params[:room_id]
+    @user_id = params[:user_id]
+    render :layout => false
   end
 
 #------------API METHODS

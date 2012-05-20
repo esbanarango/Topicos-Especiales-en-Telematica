@@ -1,6 +1,13 @@
-<li>
-  <span data-id="<%= message.user_id %>" class="bodyMessages <%= (current_user.id == message.user_id)? 'me':'' %>"><%= User.find(message.user_id).username %>:</span>	
-  <span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
-  <div class="content"><%= message.content %></div>
-  
-</li>
+<% if message.to %>
+	<div class="p_in">
+		<span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
+		<div class="content_messages"><%= message.content %></div>
+	</div>
+<% else %>
+	<li>
+	  <span data-id="<%= message.user_id %>" class="bodyMessages <%= (current_user.id == message.user_id)? 'me':'' %>"><%= User.find(message.user_id).username %>:</span>	
+	  <span class="created_at"><%= message.created_at.strftime("%H:%M") %></span>
+	  <div class="content"><%= message.content %></div>
+	  
+	</li>
+<% end %>
