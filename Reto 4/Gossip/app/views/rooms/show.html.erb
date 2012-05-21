@@ -34,7 +34,7 @@
 							<footer><div class="arrow">→</div>
 								<%= form_for ([@room, @new_message]), remote: true, :url => private_message_path(@room), :html => { :id => "private_input_form_#{user.id}"}  do |f| %>
 								  <%= f.text_field :to, :type => :hidden,  :value => "#{user.id}" %>
-								  <%= f.text_field :content, :required=> "required" %>
+								  <%= f.text_field :content, :required=> "required", :placeholder => 'Shhh...' %>
 								<% end %>
 							</footer>
 							
@@ -60,7 +60,7 @@
 	<div class="row" id="input">
 		<%= form_for ([@room, @new_message]), remote: true, :html => { :class => "well"}  do |f| %>
 		  <%= f.text_field :room_id, :type => :hidden,  :value => "#{@room.id}" %>
-		  <%= f.text_field :content, :required=> "required" %>
+		  <%= f.text_field :content, :required=> "required", :placeholder => 'Message...' %>
 		  <%= f.submit "Send" %>
 		<% end %>
 	</div>
