@@ -19,6 +19,10 @@
 
 ...
 
-##Resources
+##Recursos
 
-	Room chat design taken from [Liam Kaufman](http://liamkaufman.com/)
+...
+
+##Referencias
+
+Room chat design taken from [Liam Kaufman](http://liamkaufman.com/)
