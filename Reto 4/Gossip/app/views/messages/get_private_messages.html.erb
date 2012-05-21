@@ -1,0 +1,29 @@
+<div id="private_message_<%= @user_id%>" class="private_messages">
+	<header class="header_private">Internal Gossip...<div class="shh">"Shhhhh"</div></header>
+	<div class="content">
+		<% for messagePrivate in @privateMessages %>
+		<div class="p_in">
+			<span data-id="<%= messagePrivate.user_id %>" class="bodyMessages <%= (current_user.id == messagePrivate.user_id)? 'privateMe':'privateOther' %>"><%= User.find(messagePrivate.user_id).username %>:</span>	
+			<span class="created_at"><%= messagePrivate.created_at.strftime("%H:%M") %></span>
+			<div class="content_messages"><%= messagePrivate.content %></div>
+		</div>
+		<% end %>
+	</div>
+	<footer><div class="arrow">→</div>
+		<%= form_for ([@room, @new_message]), remote: true, :url => private_message_path(@room), :html => { :id => "private_input_form_#{@user_id}"}  do |f| %>
+		  <%= f.text_field :to, :type => :hidden,  :value => "#{@user_id}" %>
+		  <%= f.text_field :content, :required=> "required" %>
+		<% end %>
+	</footer>
+
+	
+	<% #Prevent to connect twice %>
+	<%  orderSubscribeTo =  "#{@room.id}#{@user_id}#{current_user.id}".chars.sort.join %>
+	<% jsSubscribe = subscribe_to ('/private/#{orderSubscribeTo}')%>
+	<script type="text/javascript">
+	if(!$(window).data("connected/<%= orderSubscribeTo%>")){
+		<%= raw  jsSubscribe.gsub('<script type="text/javascript">','').gsub('</script>', '') %>
+	    $(window).data("connected/<%= orderSubscribeTo%>", true)
+	}
+    </script>
+</div>

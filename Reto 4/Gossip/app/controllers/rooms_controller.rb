@@ -106,13 +106,7 @@
     if @room.users.size == 0
       @room.messages.delete_all
     end
-    PrivatePub.publish_to("/rooms/#{@room.id}", "")
-  end
-
-  def subscribe_private
-    @room_id = params[:room_id]
-    @user_id = params[:user_id]
-    render :layout => false
+    #PrivatePub.publish_to("/rooms/#{@room.id}", "")
   end
 
 #------------API METHODS

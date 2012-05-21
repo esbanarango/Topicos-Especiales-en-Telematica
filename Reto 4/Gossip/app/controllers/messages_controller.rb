@@ -89,6 +89,15 @@ class MessagesController < ApplicationController
     end
   end
 
+  def get_private_messages
+    @user_id = params[:user_id]
+    @room = Room.find(params[:room_id])
+    @privateMessages = Message.where("('messages'.'to'  = ? and 'messages'.'user_id' = ?) or ('messages'.'to' = ? and 'messages'.'user_id' = ?)",current_user.id,@user_id,@user_id,current_user.id)
+    @new_message = Message.new
+    render :layout => false
+  end
+
+
 
   #API METHOD
   #  match '/API/messages.json',  to: 'messages#api_create', :via => 'POST'

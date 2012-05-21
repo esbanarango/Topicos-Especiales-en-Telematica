@@ -55,13 +55,43 @@ footer ul li {
   background: white;
   border: 1px solid #DDD;
 }
+
+
 .private_messages .content{
   height: 50%;
   width: 95%;
   padding: 5px;
-  overflow: scroll;
+  overflow-y: scroll;
   margin: 0 auto;
 }
+
+.private_messages .content .created_at {
+  float: right;
+  color: 
+  #777;
+  font-size: 11px;
+  padding-left: 4px;
+  padding-top: 2px;
+}
+
+.private_messages .content .privateOther {
+  border-radius:2px;
+  color: #333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #CCC;
+}
+
+.private_messages .content .privateMe {
+   border-radius:2px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: white;
+  background-color: #5BB75B;
+}
+.private_messages .content .content_messages {
+  padding-left:3px;
+}
+
+
 
 .private_messages header{
   font-size:11px;

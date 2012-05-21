@@ -25,6 +25,7 @@
 							<div class="content">
 								<% for messagePrivate in @privateMessages[user.id] %>
 								<div class="p_in">
+									<span data-id="<%= messagePrivate.user_id %>" class="bodyMessages <%= (current_user.id == messagePrivate.user_id)? 'privateMe':'privateOther' %>"><%= User.find(messagePrivate.user_id).username %>:</span>	
 									<span class="created_at"><%= messagePrivate.created_at.strftime("%H:%M") %></span>
 									<div class="content_messages"><%= messagePrivate.content %></div>
 								</div>
@@ -39,6 +40,9 @@
 							
 							<%  orderSubscribeTo =  "#{@room.id}#{user.id}#{current_user.id}".chars.sort.join %>
 							<%= subscribe_to "/private/#{orderSubscribeTo}" %>
+							<script type="text/javascript">
+								$(window).data("connected/<%= orderSubscribeTo%>", true);
+							</script>
 
 						</div>
 					<% end %>
@@ -74,25 +78,24 @@
           	});
     });
 	var privateMessage= ""
-	<% publish_to "/rooms/#{@room.id}" do %>
-	   $('#liUsers').append("<a id='<%= current_user.id%>' class='user_<%= current_user.id%>' ><%= current_user.username%></a>");
-	   $("#num-users").text($("#liUsers a").size());
 
-	   //Subscribe to me.
-	   $.ajax({
-			type: "POST",
-          	url: "/rooms/<%= @room.id%>/subscribe_private",
+	<% publish_to "/rooms/#{@room.id}" do %>
+	   $('#liUsers').append("<a id='<%= current_user.id%>' class='user_<%= current_user.id%> parner' ><%= current_user.username%></a>");
+	   $("#num-users").text($("#liUsers a").size());
+	   var data = "";
+	   //Get our messages and subscribe to me
+       $.ajax({
+       		type: "POST",
+          	url: "/rooms/<%= @room.id%>/get_private_messages",
           	data:{ user_id: "<%= current_user.id%>"},
-          	success: function(data, textStatus, xhr){
-            
-	            $("#user-list").append(data);
-	            
+          	success: function(_data, textStatus, xhr){
+          		data=_data;
+          		do{
+          			$("#liUsers #<%= current_user.id%>").after(data);
+          			console.log($("#liUsers #<%= current_user.id%>").text());
+          		}while(!$("#liUsers #<%= current_user.id%>").exists());
 	        }
-          }).done(function( html ) {
-          	contenedor.log(html)
-			});
-        //get our messages
-        
+          });
 
 	<% end %>
 

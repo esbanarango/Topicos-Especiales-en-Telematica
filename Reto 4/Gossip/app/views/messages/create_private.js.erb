@@ -1,19 +1,17 @@
 
 <%  orderSubscribeTo =  "#{@message.room_id}#{@message.to}#{@message.user_id}".chars.sort.join %>
-<% puts "veeelo despues=> "+orderSubscribeTo %>
 <% publish_to "/private/#{orderSubscribeTo}" do %>
-alert("aaaa")
 	var content = $("<%= j render(@message) %>");
 	var msgOwner = content.find(".bodyMessages");
 
 	if($(msgOwner).data("id") !=  $(".elpropio").attr("id")){
-		content.find(".bodyMessages").removeClass("me")
+		content.find(".bodyMessages").removeClass("privateMe").addClass("privateOther")
 	}
 
   $("#private_message_<%=@message.user_id%> .content").append(content);
   $("#private_message_<%=@message.to%> .content").append(content);
+
+  $("#private_message_<%=@message.to%> .content").animate({ scrollTop: $("#private_message_<%=@message.to%> .content").prop('scrollHeight')}, 1000);
+  $("#private_message_<%=@message.user_id%> .content").animate({ scrollTop: $("#private_message_<%=@message.user_id%> .content").prop('scrollHeight')}, 1000);
 <% end %>
-
-<% PrivatePub.publish_to "/private/#{orderSubscribeTo}", :chat_message => "Hello, world!" %>
-
 $("#private_input_form_<%=@message.to%>")[0].reset();
