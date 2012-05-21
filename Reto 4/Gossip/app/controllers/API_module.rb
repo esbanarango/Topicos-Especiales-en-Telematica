@@ -6,7 +6,7 @@ module APIModule
 	end
 
 	def newUserEnter(user_id)
-		js="$('#liUsers').append(\"<a id='#{user_id}' class='user_#{user_id}' >#{User.find(user_id).username}</a>\");$('#num-users').text($('#liUsers a').size());"    
+		js="$('#liUsers').append(\"<a id='#{user_id}' class='user_#{user_id}' title='Desktop User' ><i class='icon-user'></i>#{User.find(user_id).username}<i class='desktop'>Desktop</i></a>\");$('#num-users').text($('#liUsers a').size());"    
 	end
 
 	def userLeaves(user)

@@ -44,7 +44,33 @@ footer ul li {
 }
 
 
+.room-description{
+  list-style: none;
+  color: #bbb;
+}
+
+.room-description li{
+    font-size:9px !important;
+    margin-left: -20px; 
+}
+
 .parner{cursor: pointer;}
+
+.desktop{color:#ccc !important;}
+
+.newMessages{
+  display: none;
+  font-size: 8.998px !important;
+  padding: 1px 7px 2px !important;
+  margin-left:3px;
+  -webkit-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+  border-radius: 6px !important;
+  -webkit-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+  border-radius: 6px !important;
+
+}
 
 .private_messages{
   display: none;

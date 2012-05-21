@@ -103,7 +103,8 @@ class GossipServer
     	print gris("\tPassword:")
     	password = ask(" ") {|q| q.echo = "x"}
     	data = {	"session[username]" 				=> @username,
-    				"session[password]" 				=> password
+    				"session[password]" 				=> password,
+                    "session[device]"                   => "desktop"
     			}
     	jsonResponse = 	serverCall("signin", data)	
     	#If there is a 'response' key in the hash, then there was an error.
@@ -147,7 +148,8 @@ class GossipServer
     	end
     	data = {	"user[username]" 				=> @username,
     				"user[password]" 				=> password,
-    				"user[password_confirmation]"	=> passwordConfirmation
+    				"user[password_confirmation]"	=> passwordConfirmation,
+                    "user[device]"   => "desktop"
     			}
     	serverCall("signup", data)
     end

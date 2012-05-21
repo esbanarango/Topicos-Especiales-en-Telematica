@@ -122,7 +122,9 @@ module Main
                     "message[room_id]"                => @current_room_id,
                     "message[content]"                => line
                 }
-        sendMessage(data)
+        if line.gsub(/\s+/, " ").strip != ""
+            sendMessage(data)
+        end
     end
 
     def sendMessage(data)

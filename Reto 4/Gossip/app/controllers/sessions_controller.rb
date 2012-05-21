@@ -10,7 +10,15 @@ class SessionsController < ApplicationController
     user = User.find_by_username(params[:session][:username])
     respond_to do |format|
       if user && user.authenticate(params[:session][:password])
+
+        if(params[:session][:device] == "desktop")
+          user.update_attribute(:device, params[:session][:device])
+        else
+          user.update_attribute(:device, "web")
+        end  
+        puts "depue" +user.device
         session[:user_id] = user.id
+        
         format.html { redirect_to user }
         format.json { render json: user, status: :created, location: user }
       else

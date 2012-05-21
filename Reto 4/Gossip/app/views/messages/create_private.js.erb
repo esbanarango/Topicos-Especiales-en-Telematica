@@ -11,6 +11,11 @@
   $("#private_message_<%=@message.user_id%> .content").append(content);
   $("#private_message_<%=@message.to%> .content").append(content);
 
+  if (!$("#private_message_<%=@message.user_id%>").is(':visible')){
+	  var newMsgCount =  parseInt($("a.parner#<%=@message.user_id%> .newMessages").text());
+	  $("a.parner#<%=@message.user_id%> .newMessages").text(++newMsgCount).show();
+  }
+
   $("#private_message_<%=@message.to%> .content").animate({ scrollTop: $("#private_message_<%=@message.to%> .content").prop('scrollHeight')}, 1000);
   $("#private_message_<%=@message.user_id%> .content").animate({ scrollTop: $("#private_message_<%=@message.user_id%> .content").prop('scrollHeight')}, 1000);
 <% end %>

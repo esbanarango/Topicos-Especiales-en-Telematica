@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.where("room_id = ? and to is null", params[:room_id])
+    @messages = Message.where("'messages'.'room_id' = ? and 'messages'.'to' is NULL", params[:room_id])
     totalMessages = (@messages.size>10) ? 9 : @messages.size
     respond_to do |format|
       format.html # index.html.erb
