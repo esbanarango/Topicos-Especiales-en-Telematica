@@ -59,6 +59,7 @@ class GossipServer
     def run
         puts rojo("Gossip running...")
         puts amarillo("\t\tGossip")
+        puts gris("\tNote:")+" Consider to use the web app in order to be able to use the full features."
     	puts "\tWelcome to Gossip chat, please insert your username."
     	puts "\tIn case you don't have a username insert one and we'll check the availability in order to"
     	puts "\tproceed with the Signup process!. :)"

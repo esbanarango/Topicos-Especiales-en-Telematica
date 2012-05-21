@@ -5,7 +5,7 @@
 
  ![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Reto%204/Gossip/app/assets/images/gossip.jpg?raw=true)
 
-##Reto 4
+#Reto 4
 
 >Diseño e implementación de un Chat con múltiples salas. Un usuario puede enviar mensajes a todos los miembros de una sala (por defecto) o a un usuario en particular en línea en el sistema. Se debe enviar mensajes sencillos de texto de máximo 160 caracteres (tipo twitter o SMS).
 
@@ -15,15 +15,33 @@
    * [Daniel Duque Tirado](https://github.com/DanielJDuque)
    * [Sebastian Duque Jaramillo](https://github.com/sduquej)
 
-###Description
+##Description
 
 This is _simple_ web chat application which we wanted to made as nice as we could. The basic idea behind scenes is a real-time ( publish and subscribe) application where you will be able to use from a web browser as well as from a desktop program.
 
-###Requirements
+##Requirements
+This app was entirely made using Ruby (_1.9.>_) and Ruby on Rails, so you must have installed Ruby and Rails in your machine. Please go to these sites, there you'll find a nice guides to install both.
 
-###Setup
+ [RVM](https://rvm.io//) Ruby Version Manager
 
-###Resources
+ [Rails Guides](http://guides.rubyonrails.org/getting_started.html)
+
+>We recommend to run it on Linux or Mac OS. Rails run extremely slow on Windows (Actually we should say that _Windows runs Rails extremely slow_:P).
+
+##Setup
+
+The app needs to run two servers. 
+First, make sure you run `$ bundle install` to install all the dependencies. Then, setup the database running `$ rake db:migrate` and  fill it up running `$ rake db:seed`.
+
+Now you'll be able to run `$ rails s`, to start the rails server, and  now you can start up that Rack server by running `$ rackup private_pub.ru -s thin -E production`.
+
+####Web
+You can go to `http://localhost:3000` and enjoy it :).
+
+####Desktop
+Being on the _Gossip Thick_ folder (`$ cd Gossip\ Thick/`), run `$ ruby GossipServer.rb ` and you can enjoy it too from you favorite console :).
+
+##Resources
 
 * [Private Pub](https://github.com/ryanb/private_pub)
 	* For all the real-time interactions.
@@ -32,11 +50,7 @@ This is _simple_ web chat application which we wanted to made as nice as we coul
 * [Bootstrap, from Twitter](http://twitter.github.com/bootstrap/) with [Twitter Bootstrap for Rails](https://github.com/seyhunak/twitter-bootstrap-rails)
 	* Site style, and responsive design
 
-###Current issues
-
-...
-
-###References
+##References
 
 [RailsCasts](http://railscasts.com/) was really helpful, thanks Ryan :P.
 
