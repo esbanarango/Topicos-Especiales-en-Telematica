@@ -2,14 +2,13 @@ class IntegradorController < ApplicationController
 
   # GET /webdSearch
   def WebDSearch
-  	@search = {}
     respond_to do |format|
       format.html # index.html.erb
     end
   end
 
   def search
-    responseFinal = webService(params[:q])
+    @resp = webService(params[:q])
 
   	respond_to do |format|  
         format.js  
@@ -40,8 +39,9 @@ class IntegradorController < ApplicationController
     @response["answers"].each do |ans|
       ans["url"] = @workers[workerNumber]+"datos/"+ans["url"]
     end    
-    @responseFinal = {}
-    @responseFinal[:request] = {question: query, answers: @response["answers"]}
+    responseFinal = {}
+    responseFinal[:request] = {question: query, answers: @response["answers"]}
+    return responseFinal
 
   end
   

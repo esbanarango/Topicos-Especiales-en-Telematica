@@ -1,9 +1,9 @@
 
 
 var result = ""
-
-<% @responseFinal[:request][:answers].each do |answer|%>
-result += "<div><label>Total:<%= answer['count'] %></label></br>"+"<label>En:<%= answer['url'] %></label></div>"
+var ths = "<thead><tr><th>Total</th><th>En</th></tr></thead>"
+<% @resp[:request][:answers].each do |answer|%>
+result += "<tr><td><label><%= answer['count'] %></label></td>"+"<td><label><%= answer['url'] %></label></td></tr>"
 <% end %>
 
-$(".result").html(result)
+$(".result").html("<table class='table table-striped table-bordered table-condensed'>"+ths+result+"</table>")

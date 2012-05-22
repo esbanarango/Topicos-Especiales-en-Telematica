@@ -1,9 +1,7 @@
 <article>
-	<header>Integrador</header>
 	<div>	
 		<%= form_tag search_path, :remote => true do %>
-		  <%= label_tag(:q, "Search for:") %>
-		  <%= text_field_tag(:q) %>
+		  <%= text_field_tag 'q',nil, :required => "required", :placeholder => 'search...' %>
 		  <%= submit_tag("Search") %>
 		<% end %>
 		<div class="result"></div>

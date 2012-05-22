@@ -14,6 +14,12 @@ Se cuenta con dos apliacaciónes de Rails `servidor_integrador` y `worker`.
 		`-- Workers
 		    `-- worker
 
+##Requerimientos
+
+Se debe tener instalado Ruby 1.9.> y Rails 3.2.>.
+
+Antes de ejecutar cualquiera de los dos proyectos, se debe correr en la consola `$ bundle install` para cada uno de los dos proyectos. Con el fin de instalar las dependencias y gemas necesarias.
+
 ##Ejecución
 
 Primero se deben generar los n Workers que se deseen, para esto se lanzan n instancias del proyecto _worker_, cada una de estas por diferente puerto. (Se debe estár ubicado en la carpeta _worker_ `$ cd Workers/worker`)
@@ -27,10 +33,10 @@ Estos puertos debe coincidir con el archivo _dsearch.xml_
 
     <?xml version=”1.0”> 
     	<workers>
-    	<worker>http://localhost:8080/</worker> 
-    	<worker>http://localhost:8081/</worker> 
-		<worker>http://localhost:8082/</worker> 
-    </workers>
+	    	<worker>http://localhost:8080/</worker> 
+	    	<worker>http://localhost:8081/</worker> 
+			<worker>http://localhost:8082/</worker> 
+    	</workers>
 
 Este archivo se encuentra en:
 	
