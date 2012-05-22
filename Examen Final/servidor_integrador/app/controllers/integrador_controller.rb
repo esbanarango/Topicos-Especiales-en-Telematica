@@ -38,7 +38,7 @@ class IntegradorController < ApplicationController
     @response = getData("/WSS_Search",data,true)
 
     @response["answers"].each do |ans|
-      ans["url"] = @workers[workerNumber]+ans["url"]
+      ans["url"] = @workers[workerNumber]+"datos/"+ans["url"]
     end    
     @responseFinal = {}
     @responseFinal[:request] = {question: query, answers: @response["answers"]}
