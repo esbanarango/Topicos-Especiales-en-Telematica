@@ -16,7 +16,6 @@ class SessionsController < ApplicationController
         else
           user.update_attribute(:device, "web")
         end  
-        puts "depue" +user.device
         session[:user_id] = user.id
         
         format.html { redirect_to user }

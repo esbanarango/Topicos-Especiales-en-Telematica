@@ -5,7 +5,6 @@
 
   skip_load_and_authorize_resource :only => [:user_out, :subscribe_private, :api_rooms, :api_join_room, :api_leave_room]
 
-  include APIModule
 
   #respond_to :json, :html, :js
 

@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
 
-  include APIModule
 
 
   # GET /messages

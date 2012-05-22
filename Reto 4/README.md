@@ -35,6 +35,16 @@ First, make sure you run `$ bundle install` to install all the dependencies. The
 
 Now you'll be able to run `$ rails s`, to start the rails server, and  now you can start up that Rack server by running `$ rackup private_pub.ru -s thin -E production`.
 
+#####Linux Note.
+If you're on Linux, there is a _problem_ with the ports when you start up the Rack server, so you'll have to change the _private_pub.yml_ file. on
+
+```yaml
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+```
+change the port `9292` to 8000 (or whatever you want.), and then start up the Rack server with `$ rackup private_pub.ru -s thin -p 8000 -E production`. (You'll also need to restar the Rails sever in order to get the changes made on _private_pub.yml_)
+
 ####Web
 You can go to `http://localhost:3000` and enjoy it :).
 
