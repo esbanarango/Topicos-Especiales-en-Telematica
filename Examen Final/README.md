@@ -66,5 +66,5 @@ Este último responde con un JSON con la siguiente estructura:
 ```
 
 ####Ejemplo interacción
- ![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Examen%20Final/Screenshots/exam.png?raw=true)
+ ![PUSH](https://github.com/esbanarango/Topicos-Especiales-en-Telematica/blob/master/Examen%20Final/Screenshots/exmple.png?raw=true)
 
