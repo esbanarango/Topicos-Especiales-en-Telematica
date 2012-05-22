@@ -1,5 +1,10 @@
 #Búsquedas en Texto Completo Distribuidas
 ========
+>"Se tiene un conjunto de nodos Workers que contienen:
+>un conjunto de documentos replicados en diferentes formatos–cada uno de los nodos tiene el mismo conjunto de datos replicados.
+>Cada uno de los Workers tiene un Servidor Web Apache o similar. Cada uno de los Workers permite acceder al documento completo desde un Browser o aplicaciones mediante su URL.
+>Se debe implementar un Integrador de consultas, el cual tendrá una interface Web para que usuarios puedan realizar consultas. Además implementará el mismo Web Service de los Workers
+>Cada usuario que entre por la interfaz web o por el web service, por cada transacción diferentes, deberá seleccionar con alguna métrica, uno de los workers (métricas como round robin, carga, aleatorio, etc, puede emplearse)."
 
 **By:**
   
@@ -23,21 +28,21 @@ Antes de ejecutar cualquiera de los dos proyectos, se debe correr en la consola 
 ##Ejecución
 
 Primero se deben generar los n Workers que se deseen, para esto se lanzan n instancias del proyecto _worker_, cada una de estas por diferente puerto. (Se debe estár ubicado en la carpeta _worker_ `$ cd Workers/worker`)
-
-	$ rails s -p 8080
-	$ rails s -p 8081
-	$ rails s -p 8082
-
+```bash
+$ rails s -p 8080
+$ rails s -p 8081
+$ rails s -p 8082
+```
 
 Estos puertos debe coincidir con el archivo _dsearch.xml_
-
-    <?xml version=”1.0”> 
-    	<workers>
-	    	<worker>http://localhost:8080/</worker> 
-	    	<worker>http://localhost:8081/</worker> 
-			<worker>http://localhost:8082/</worker> 
-    	</workers>
-
+```xml
+<?xml version=”1.0”> 
+<workers>
+    <worker>http://localhost:8080/</worker> 
+    <worker>http://localhost:8081/</worker> 
+	<worker>http://localhost:8082/</worker> 
+</workers>
+```
 Este archivo se encuentra en:
 	
 	|-- servidor_integrador

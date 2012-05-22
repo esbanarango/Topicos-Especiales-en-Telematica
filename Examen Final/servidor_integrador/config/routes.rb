@@ -1,6 +1,7 @@
 ServidorIntegrador::Application.routes.draw do
 
 
+  root to: 'integrador#WebDSearch'
   match '/WebDSearch',  to: 'integrador#WebDSearch', :via => ['POST','GET']
 
   match '/WSS_DSearch',  to: 'integrador#WSS_DSearch', :via => ['POST','GET']
