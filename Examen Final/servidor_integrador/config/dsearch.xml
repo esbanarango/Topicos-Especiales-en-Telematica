@@ -1,0 +1,6 @@
+<?xml version=”1.0”> 
+	<workers>
+		<worker>http://localhost:8080/</worker> 
+		<worker>http://localhost:8081/</worker> 
+		<worker>http://localhost:8082/</worker> 
+	</workers>

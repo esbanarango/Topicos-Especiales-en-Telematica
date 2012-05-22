@@ -1,0 +1,11 @@
+<article>
+	<header>Integrador</header>
+	<div>	
+		<%= form_tag search_path, :remote => true do %>
+		  <%= label_tag(:q, "Search for:") %>
+		  <%= text_field_tag(:q) %>
+		  <%= submit_tag("Search") %>
+		<% end %>
+		<div class="result"></div>
+	</div>
+</article>

@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
 
   include APIModule
 
+
   # GET /messages
   # GET /messages.json
   def index

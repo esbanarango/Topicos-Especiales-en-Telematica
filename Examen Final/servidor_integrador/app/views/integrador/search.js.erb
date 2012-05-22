@@ -1,0 +1,9 @@
+
+
+var result = ""
+
+<% @responseFinal[:request][:answers].each do |answer|%>
+result += "<div><label>Total:<%= answer['count'] %></label></br>"+"<label>En:<%= answer['url'] %></label></div>"
+<% end %>
+
+$(".result").html(result)
