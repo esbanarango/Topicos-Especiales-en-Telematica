@@ -152,7 +152,8 @@ class GossipServer
     				"user[password_confirmation]"	=> passwordConfirmation,
                     "user[device]"   => "desktop"
     			}
-    	serverCall("signup", data)
+    	jsonResponse = serverCall("signup", data)
+        @user_id = jsonResponse['id']
     end
 
     def serverCall(type, data)

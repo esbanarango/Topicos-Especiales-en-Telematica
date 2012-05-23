@@ -56,7 +56,10 @@ footer ul li {
 
 .parner{cursor: pointer;}
 
-.desktop{color:#ccc !important;}
+.desktop{
+  margin-left:4px;
+  color:#ccc !important;
+}
 
 .newMessages{
   display: none;

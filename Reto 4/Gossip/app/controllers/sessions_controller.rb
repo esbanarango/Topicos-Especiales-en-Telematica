@@ -29,8 +29,12 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+
+    #RoomsUsers.delete_all(:user_id => session[:user_id])
+
     session[:user_id] = nil
     session[:channel_id] = nil
+
     redirect_to root_url, notice: "Bye, come back soon!; btw, You're Awesome!"
   end
 

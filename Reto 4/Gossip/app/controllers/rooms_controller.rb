@@ -24,25 +24,29 @@
   # GET /rooms/1.json
   def show
     @user = current_user
+    isAreadyInside = RoomsUsers.find_by_user_id_and_room_id(@user.id,@room.id)
+    if(isAreadyInside == nil)
+      #New user enter to the room
+      RoomsUsers.create!({:user_id => @user.id, :room_id => @room.id})
 
-    #New user enter to the room
-    RoomsUsers.create!({:user_id => @user.id, :room_id => @room.id})
+      @usersIn= @room.users.reverse!
+      @privateMessages={}
 
-    @usersIn= @room.users.reverse!
-    @privateMessages={}
+      @usersIn.each { |u|  
+        if u.id != current_user.id
+          @privateMessages[u.id] = Message.where(" 'messages'.'room_id' = ? and (('messages'.'to'  = ? and 'messages'.'user_id' = ?) or ('messages'.'to' = ? and 'messages'.'user_id' = ?))",@room.id,current_user.id,u.id,u.id,current_user.id)
+        end
+      }
 
-    @usersIn.each { |u|  
-      if u.id != current_user.id
-        @privateMessages[u.id] = Message.where(" 'messages'.'room_id' = ? and (('messages'.'to'  = ? and 'messages'.'user_id' = ?) or ('messages'.'to' = ? and 'messages'.'user_id' = ?))",@room.id,current_user.id,u.id,u.id,current_user.id)
-      end
-    }
+      @messages = @room.messages.where('"messages"."to" is NULL')
 
-    @messages = @room.messages.where('"messages"."to" is NULL')
+      @new_message = Message.new
 
-    @new_message = Message.new
-
-    #PrivatePub.publish_to("/rooms/#{@room.id}", "console.log('entro otra nea')")
-    render :layout => "chat_layout"
+      #PrivatePub.publish_to("/rooms/#{@room.id}", "console.log('entro otra nea')")
+      render :layout => "chat_layout"
+    else
+      redirect_to(root_url, :notice => "It seems you're already on that room")
+    end
   end
 
   # GET /rooms/new
