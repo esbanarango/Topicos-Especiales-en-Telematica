@@ -37,7 +37,7 @@ class AdServidor
 		@fuentes = []
 		@canales = {}							  #Creación del Hash de canales
 		@clientes = {}
-		@doc = Nokogiri::XML File.open 'Persistence/data.xml'	
+		@doc = Nokogiri::XML File.open 'Persistence/data.xml'
 		cargarInfoXML('canales')				  #Cargamos los canales del XML
 		cargarInfoXML('mensajes')				  #Cargamos los mensajes del XML
 		cargarInfoXML('clientes')				  #Cargamos los clientes del XML
@@ -45,38 +45,39 @@ class AdServidor
 
 	def run
 		puts rojo("Server running...")
-		
+
 		hiloAdministrador = Thread.new {mainADMIN} #Main principal del administrador
 
 		Socket.tcp_server_loop(@puerto) {|socket, client_addrinfo|
 		  Thread.new {
 		    begin
-		    	identificacion(socket, client_addrinfo)	    
+		    	identificacion(socket, client_addrinfo)
 		    	if @fuentes.include?(socket)
 		    		mainAdFuente(socket)		   #Main principal de las acciones del AdFuente
 		    	else
 		    		mainAdCliente(socket)		   #Main principal de las acciones del AdCliente
 				end
 			ensure
-		      socket.close 
+		      socket.close
 		    end
 		  }
 		}
 	end
 
-	private	
-	
+	private
+
 	def identificacion(socket, client_addrinfo)
     	typeOfEntity = socket.readline.chomp
+    	puts typeOfEntity
     	case typeOfEntity
 	    	when "AdCliente"
 	    		nombreUsuario = socket.readline.chomp.downcase
 	    		@clientes[nombreUsuario] = socket
 	    		puts "A new client has entered"+ rojo(" -> ") +"#{nombreUsuario}\n"
 	    		#cargarInfoXML("clientes",nombreUsuario)
-	    	when "AdFuente"	
+	    	when "AdFuente"
 	    		@fuentes.push(socket)
-	    		puts "A new 'source' has entered"+ rojo(" -> ") +"ip: #{client_addrinfo.ip_address} - port: #{client_addrinfo.ip_port} \n"	
+	    		puts "A new 'source' has entered"+ rojo(" -> ") +"ip: #{client_addrinfo.ip_address} - port: #{client_addrinfo.ip_port} \n"
     	end
 	end
 end
