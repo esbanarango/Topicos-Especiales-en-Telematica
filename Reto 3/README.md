@@ -7,7 +7,7 @@ m
  **Por:**
   
    * [Esteban Arango Medina](https://github.com/esbanarango)
-   * [Daniel Duque Tirado](https://github.com/DanielJDuque)
+   * [Daniel Duque Tirado](https://github.com/dduqueti)
    * [Sebastian Duque Jaramillo](https://github.com/sduquej)
 
 ##Descripción
